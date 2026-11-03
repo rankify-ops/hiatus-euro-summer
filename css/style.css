@@ -1,7 +1,8 @@
 /* ==========================================================================
    HIATUS COLLECTION — Euro Summer glass store
-   Glass recipe adapted from dashbordv11: low tint, heavy blur, 200%+ saturation,
-   bright inset top edge, deep soft drop shadow.
+   Glass recipe from the Speedy Needle redesign: a milky bright-dim-bright cream wash,
+   crisp white rim, white hairlines top AND bottom, 18-22px blur at 150-160% saturation.
+   Text on glass is ink, never white.
    Rule: never nest a backdrop-filter inside another, and never put opacity,
    filter or clip-path on an ancestor of a glass element (it kills the blur).
    ========================================================================== */
@@ -16,14 +17,17 @@
   --white-50: rgba(255, 255, 255, .5);
   --gold: #e6c89a;
 
-  --glass-tint: linear-gradient(150deg, rgba(34, 30, 26, .34) 0%, rgba(18, 16, 14, .46) 100%);
-  --glass-tint-light: linear-gradient(150deg, rgba(255, 255, 255, .16) 0%, rgba(255, 255, 255, .06) 100%);
-  --glass-blur: blur(34px) saturate(165%);
-  --glass-edge: 1px solid rgba(255, 255, 255, .22);
+  --glass-tint: linear-gradient(140deg, rgba(255, 252, 245, .52) 0%, rgba(255, 247, 232, .2) 55%, rgba(255, 252, 245, .4) 100%);
+  --glass-tint-light: linear-gradient(140deg, rgba(255, 252, 245, .62) 0%, rgba(255, 246, 230, .28) 55%, rgba(255, 252, 245, .48) 100%);
+  --glass-blur: blur(20px) saturate(155%);
+  --glass-edge: 1px solid rgba(255, 255, 255, .75);
   --glass-shadow:
-    0 30px 70px -18px rgba(0, 0, 0, .55),
-    inset 0 1.5px 2px 0 rgba(255, 255, 255, .35),
-    inset 0 0 22px 0 rgba(255, 255, 255, .05);
+    inset 0 1px 0 rgba(255, 255, 255, .95),
+    inset 0 -1px 0 rgba(255, 255, 255, .25),
+    0 26px 52px -24px rgba(60, 35, 20, .55);
+  --ink-on-glass: #1a1613;
+  --ink-soft: rgba(26, 22, 19, .68);
+  --bronze: #8a6a3c;
 
   --serif: 'Cormorant Garamond', 'Times New Roman', serif;
   --sans: 'Inter', -apple-system, 'Segoe UI', Roboto, sans-serif;
@@ -105,21 +109,25 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   border-radius: var(--r-lg);
   box-shadow: var(--glass-shadow);
   isolation: isolate;
+  color: var(--ink-on-glass);
+  /* anything inside glass that asked for soft white now gets soft ink */
+  --white-70: var(--ink-soft);
+  --white-50: rgba(26, 22, 19, .55);
 }
 .glass.light { background: var(--glass-tint-light); }
 /* top-left sheen like light catching a pane */
 .glass::before {
   content: ''; position: absolute; inset: 0; border-radius: inherit; pointer-events: none; z-index: 0;
-  background: linear-gradient(118deg, rgba(255, 255, 255, .16) 0%, rgba(255, 255, 255, 0) 32%);
+  background: linear-gradient(160deg, rgba(255, 255, 255, .35), rgba(255, 255, 255, 0) 60%);
 }
 .glass > * { position: relative; z-index: 1; }
 /* chips that sit INSIDE glass: tint only, no blur (nested blur breaks) */
 .chip {
   display: inline-flex; align-items: center; gap: 8px;
   padding: 7px 12px; border-radius: 999px;
-  background: rgba(255, 255, 255, .1);
-  border: 1px solid rgba(255, 255, 255, .16);
-  box-shadow: inset 0 1px 1px rgba(255, 255, 255, .2);
+  background: linear-gradient(160deg, rgba(255, 255, 255, .55), rgba(255, 255, 255, .15) 80%);
+  border: 1px solid rgba(255, 255, 255, .7);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .9);
   font-family: var(--mono); font-size: 10.5px; letter-spacing: .12em; text-transform: uppercase;
   white-space: nowrap;
 }
@@ -134,19 +142,19 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
 }
 .jbox .glow { /* soft spotlight behind the piece */
   position: absolute; inset: 0; z-index: 0;
-  background: radial-gradient(52% 46% at 50% 44%, rgba(255, 236, 210, .3) 0%, rgba(255, 236, 210, .06) 55%, transparent 75%);
+  background: radial-gradient(55% 48% at 50% 44%, rgba(255, 255, 255, .55) 0%, rgba(255, 250, 240, .18) 55%, rgba(90, 60, 35, .1) 100%);
 }
 .jbox .piece {
   position: relative; z-index: 2;
   width: 66%; height: 66%; object-fit: contain;
-  filter: drop-shadow(0 26px 22px rgba(0, 0, 0, .5)) drop-shadow(0 2px 2px rgba(0, 0, 0, .35));
+  filter: drop-shadow(0 24px 20px rgba(50, 32, 18, .42)) drop-shadow(0 2px 3px rgba(30, 20, 12, .45));
   animation: float 6.5s ease-in-out infinite;
   will-change: transform;
 }
 .jbox .shadow {
   position: absolute; z-index: 1; left: 50%; bottom: 12%;
   width: 46%; height: 7%; translate: -50% 0;
-  background: radial-gradient(closest-side, rgba(0, 0, 0, .45), transparent);
+  background: radial-gradient(closest-side, rgba(60, 38, 20, .38), transparent);
   animation: shadow 6.5s ease-in-out infinite;
 }
 /* pendant chains are cropped in the packshot: fade the top so it hangs from nowhere */
@@ -184,7 +192,7 @@ button { font: inherit; color: inherit; background: none; border: 0; cursor: poi
   border: 1px solid rgba(255, 255, 255, .3);
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, .3);
 }
-.btn-glass:hover { background: rgba(255, 255, 255, .2); }
+.btn-glass:hover { background: rgba(255, 255, 255, .6); }
 .btn-block { width: 100%; }
 .btn svg { width: 14px; height: 14px; }
 @media (max-width: 640px) { .btn-row .btn { width: 100%; } }
@@ -218,22 +226,22 @@ html.is-scrolled .topbar { translate: 0 -100%; }
 .nav { display: flex; gap: 4px; }
 .nav a, .nav button {
   position: relative; padding: 10px 14px; border-radius: 12px;
-  font-size: 13px; letter-spacing: .02em; color: var(--white-70);
+  font-size: 13px; letter-spacing: .02em; color: var(--ink-soft);
   transition: color .2s, background .2s;
 }
-.nav a:hover, .nav button:hover, .nav .active { color: var(--white); background: rgba(255, 255, 255, .08); }
-.nav .active::after { content: ''; position: absolute; left: 50%; bottom: 3px; width: 4px; height: 4px; margin-left: -2px; border-radius: 1px; background: var(--gold); }
+.nav a:hover, .nav button:hover, .nav .active { color: var(--ink-on-glass); background: rgba(255, 255, 255, .5); }
+.nav .active::after { content: ''; position: absolute; left: 50%; bottom: 3px; width: 4px; height: 4px; margin-left: -2px; border-radius: 1px; background: var(--bronze); }
 .hdr-actions { display: flex; justify-content: flex-end; align-items: center; gap: 4px; }
 .icon-btn {
   position: relative; width: 42px; height: 42px; border-radius: 13px;
-  display: grid; place-items: center; color: var(--white);
+  display: grid; place-items: center; color: inherit;
   transition: background .2s;
 }
-.icon-btn:hover { background: rgba(255, 255, 255, .1); }
+.icon-btn:hover { background: rgba(255, 255, 255, .5); }
 .icon-btn svg { width: 19px; height: 19px; }
 .bag-count {
   position: absolute; top: 5px; right: 4px; min-width: 17px; height: 17px; padding: 0 4px;
-  border-radius: 5px; background: var(--white); color: var(--ink);
+  border-radius: 5px; background: var(--ink); color: #fff;
   font-family: var(--mono); font-size: 10px; display: grid; place-items: center;
 }
 .bag-count:empty { display: none; }
@@ -251,11 +259,11 @@ html.is-scrolled .topbar { translate: 0 -100%; }
 .header.scrolled ~ .mega { top: 80px; }
 .mega a.tile {
   border-radius: 20px; padding: 16px; display: flex; flex-direction: column; gap: 8px;
-  background: rgba(255, 255, 255, .06); border: 1px solid rgba(255, 255, 255, .1);
+  background: linear-gradient(160deg, rgba(255, 255, 255, .4), rgba(255, 255, 255, .08) 75%); border: 1px solid rgba(255, 255, 255, .6);
   transition: background .25s;
 }
-.mega a.tile:hover { background: rgba(255, 255, 255, .13); }
-.mega .tile img { height: 120px; width: 100%; object-fit: contain; filter: drop-shadow(0 14px 12px rgba(0, 0, 0, .5)); transition: transform .5s var(--ease); }
+.mega a.tile:hover { background: rgba(255, 255, 255, .55); }
+.mega .tile img { height: 120px; width: 100%; object-fit: contain; filter: drop-shadow(0 12px 10px rgba(50, 32, 18, .4)); transition: transform .5s var(--ease); }
 .mega .tile:hover img { transform: translateY(-6px) rotate(-2deg); }
 .mega .tile b { font-family: var(--serif); font-weight: 500; font-size: 24px; }
 .mega .promo { border-radius: 20px; padding: 22px; background: rgba(255, 255, 255, .92); color: var(--ink); display: flex; flex-direction: column; justify-content: space-between; gap: 14px; }
@@ -267,7 +275,7 @@ html.is-scrolled .topbar { translate: 0 -100%; }
   padding: 14px; border-radius: 24px; visibility: hidden;
 }
 .sheet.open { visibility: visible; }
-.sheet a { display: flex; justify-content: space-between; align-items: center; padding: 16px 14px; border-bottom: 1px solid rgba(255, 255, 255, .1); font-family: var(--serif); font-size: 26px; }
+.sheet a { display: flex; justify-content: space-between; align-items: center; padding: 16px 14px; border-bottom: 1px solid rgba(26, 22, 19, .1); font-family: var(--serif); font-size: 26px; }
 .sheet a:last-child { border: 0; }
 
 @media (max-width: 960px) {
@@ -297,7 +305,7 @@ section { position: relative; }
 @media (max-width: 820px) { .grid { grid-template-columns: repeat(2, 1fr); } }
 
 .card { display: flex; flex-direction: column; padding: 10px; border-radius: 30px; }
-.card .jbox { border-radius: 22px; background: rgba(255, 255, 255, .04); }
+.card .jbox { border-radius: 22px; background: linear-gradient(160deg, rgba(255, 255, 255, .35), rgba(255, 255, 255, .05) 70%); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .55); }
 .card .alt {
   position: absolute; inset: 0; z-index: 3; width: 100%; height: 100%; object-fit: cover;
   visibility: hidden; clip-path: inset(0 0 100% 0); transition: clip-path .6s var(--ease), visibility 0s .6s;
@@ -307,13 +315,13 @@ section { position: relative; }
 .card .quick {
   position: absolute; z-index: 4; left: 12px; right: 12px; bottom: 12px;
   height: 46px; border-radius: 14px;
-  background: rgba(255, 255, 255, .94); color: var(--ink);
+  background: var(--ink); color: #fff;
   font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase;
   display: flex; align-items: center; justify-content: center; gap: 8px;
   translate: 0 140%; transition: translate .45s var(--ease), background .2s;
 }
 .card:hover .quick, .card:focus-within .quick { translate: 0 0; }
-.card .quick:hover { background: var(--gold); }
+.card .quick:hover { background: #3a3129; }
 .card .meta { padding: 16px 10px 8px; display: grid; gap: 4px; }
 .card .meta .row { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
 .card .name { font-family: var(--serif); font-size: clamp(19px, 1.6vw, 23px); line-height: 1.15; }
@@ -334,6 +342,7 @@ section { position: relative; }
 /* ---------- Cart drawer ---------- */
 .scrim { position: fixed; inset: 0; z-index: 90; background: rgba(10, 8, 6, .35); visibility: hidden; }
 .scrim.open { visibility: visible; }
+.drawer.glass { background: linear-gradient(140deg, rgba(255, 252, 245, .8) 0%, rgba(255, 247, 232, .62) 55%, rgba(255, 252, 245, .74) 100%); }
 .drawer {
   position: fixed; z-index: 95; top: 12px; right: 12px; bottom: 12px;
   width: min(440px, calc(100% - 24px));
@@ -344,21 +353,21 @@ section { position: relative; }
 .drawer.open { translate: 0 0; visibility: visible; }
 .drawer-hd { display: flex; justify-content: space-between; align-items: center; padding: 22px 22px 14px; }
 .drawer-hd .display { font-size: 32px; }
-.ship { margin: 0 22px; padding: 14px 16px; border-radius: 16px; background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .12); font-size: 13px; }
-.ship .bar { height: 4px; margin-top: 10px; border-radius: 2px; background: rgba(255, 255, 255, .14); overflow: hidden; }
-.ship .bar i { display: block; height: 100%; background: var(--gold); transition: width .6s var(--ease); }
+.ship { margin: 0 22px; padding: 14px 16px; border-radius: 16px; background: linear-gradient(160deg, rgba(255, 255, 255, .5), rgba(255, 255, 255, .12) 80%); border: 1px solid rgba(255, 255, 255, .7); font-size: 13px; }
+.ship .bar { height: 4px; margin-top: 10px; border-radius: 2px; background: rgba(26, 22, 19, .1); overflow: hidden; }
+.ship .bar i { display: block; height: 100%; background: var(--ink); transition: width .6s var(--ease); }
 .lines { flex: 1; overflow: auto; padding: 14px 22px; display: grid; align-content: start; gap: 12px; }
-.line { display: grid; grid-template-columns: 76px 1fr auto; gap: 14px; align-items: center; padding: 10px; border-radius: 18px; background: rgba(255, 255, 255, .06); }
-.line .th { width: 76px; height: 76px; border-radius: 13px; background: radial-gradient(circle at 50% 45%, rgba(255, 236, 210, .25), rgba(255, 255, 255, .04)); display: grid; place-items: center; }
-.line .th img { width: 78%; height: 78%; object-fit: contain; filter: drop-shadow(0 6px 6px rgba(0, 0, 0, .5)); }
+.line { display: grid; grid-template-columns: 76px 1fr auto; gap: 14px; align-items: center; padding: 10px; border-radius: 18px; background: linear-gradient(160deg, rgba(255, 255, 255, .45), rgba(255, 255, 255, .1) 80%); border: 1px solid rgba(255, 255, 255, .6); }
+.line .th { width: 76px; height: 76px; border-radius: 13px; background: radial-gradient(circle at 50% 45%, rgba(255, 255, 255, .8), rgba(255, 255, 255, .25)); display: grid; place-items: center; }
+.line .th img { width: 78%; height: 78%; object-fit: contain; filter: drop-shadow(0 5px 5px rgba(50, 32, 18, .4)); }
 .line .t { font-family: var(--serif); font-size: 19px; line-height: 1.1; }
 .line .v { font-size: 12px; color: var(--white-50); }
-.qty { display: inline-flex; align-items: center; gap: 4px; margin-top: 6px; border: 1px solid rgba(255, 255, 255, .2); border-radius: 10px; }
+.qty { display: inline-flex; align-items: center; gap: 4px; margin-top: 6px; border: 1px solid rgba(26, 22, 19, .2); border-radius: 10px; }
 .qty button { width: 26px; height: 26px; }
 .qty span { font-family: var(--mono); font-size: 12px; min-width: 16px; text-align: center; }
 .line .p { font-family: var(--mono); font-size: 13px; align-self: start; padding-top: 4px; }
 .empty { text-align: center; padding: 40px 10px; color: var(--white-70); }
-.drawer-ft { padding: 16px 22px 22px; border-top: 1px solid rgba(255, 255, 255, .12); display: grid; gap: 12px; }
+.drawer-ft { padding: 16px 22px 22px; border-top: 1px solid rgba(26, 22, 19, .12); display: grid; gap: 12px; }
 .drawer-ft .tot { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 13px; letter-spacing: .08em; text-transform: uppercase; }
 .drawer-ft small { color: var(--white-50); font-size: 12px; text-align: center; }
 
@@ -390,3 +399,13 @@ section { position: relative; }
   *, *::before, *::after { animation: none !important; transition: none !important; }
   .rv { translate: 0 0; opacity: 1; }
 }
+
+/* ---------- Things that sit ON light glass ---------- */
+.glass .stars { color: var(--bronze); }
+.glass .sq, .glass .kicker::before { background: var(--bronze); }
+.glass .btn-primary { background: var(--ink); color: #fff; }
+.glass .btn-primary:hover { background: #3a3129; }
+.glass .btn-glass { background: rgba(255, 255, 255, .45); color: var(--ink-on-glass); border-color: rgba(255, 255, 255, .8); box-shadow: inset 0 1px 0 #fff; -webkit-backdrop-filter: none; backdrop-filter: none; }
+.glass .btn-glass:hover { background: rgba(255, 255, 255, .7); }
+/* glass buttons sitting straight on the photo get the same milky pane */
+.btn-glass { color: var(--ink-on-glass); -webkit-backdrop-filter: blur(14px) saturate(150%); backdrop-filter: blur(14px) saturate(150%); background: linear-gradient(140deg, rgba(255, 252, 245, .4), rgba(255, 247, 232, .14) 60%, rgba(255, 252, 245, .3)); border-color: rgba(255, 255, 255, .75); box-shadow: inset 0 1px 0 rgba(255, 255, 255, .9); }

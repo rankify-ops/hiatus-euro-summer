@@ -31,7 +31,7 @@
       <div class="topbar" role="region" aria-label="Store announcements"><div class="marquee">${line}${line}</div></div>
       <header class="header glass" id="hdr">
         <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">${I.menu}</button>
-        <a class="logo" href="index.html" aria-label="Hiatus Collection home"><img src="assets/logo-white.png" alt=""><b>HIATUS</b></a>
+        <a class="logo" href="index.html" aria-label="Hiatus Collection home"><img src="assets/logo-black.png" alt=""><b>HIATUS</b></a>
         <nav class="nav" aria-label="Main">
           <button type="button" id="shopBtn" aria-expanded="false" aria-controls="mega">Shop</button>
           ${navItem('rings', 'Rings')}${navItem('bracelets', 'Bracelets')}${navItem('necklaces', 'Necklaces')}
