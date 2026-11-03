@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Men's Jewellery | Hiatus Collection</title>
+<meta name="description" content="Shop oxidised 925 sterling silver rings, bracelets and pendants for men. Rated 5.0 from 115 reviews. Free express shipping on AU orders over $149.">
+<link rel="icon" href="assets/logo-black.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Fragment+Mono&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .c-hero { padding: 150px 0 34px; }
+  .c-head { display: grid; grid-template-columns: 1fr auto; gap: 30px; align-items: end; }
+  .crumbs { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.75); display: flex; gap: 10px; }
+  .crumbs a:hover { color: #fff; }
+  .c-head h1 { margin: 18px 0 14px; text-shadow: 0 2px 30px rgba(0,0,0,.35); }
+  .c-head .lede { color: rgba(255,255,255,.88); text-shadow: 0 1px 12px rgba(0,0,0,.4); }
+  .c-proof { display: grid; gap: 8px; padding: 18px 20px; border-radius: 22px; min-width: 280px; font-size: 13px; }
+  .c-proof div { display: flex; align-items: center; gap: 10px; }
+
+  /* sticky glass filter bar */
+  .filters { position: sticky; top: 84px; z-index: 40; margin: 10px 0 26px; padding: 8px; border-radius: 20px; display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .tabs { display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  .tab { --sk: -12deg; height: 42px; padding: 0 18px; border-radius: 4px; transform: skewX(var(--sk)); display: inline-flex; align-items: center; color: rgba(255,255,255,.75); transition: background .2s, color .2s; white-space: nowrap; }
+  .tab > span { transform: skewX(12deg); display: inline-flex; gap: 8px; align-items: center; font-size: 13px; }
+  .tab small { font-family: var(--mono); font-size: 10.5px; opacity: .6; }
+  .tab:hover { background: rgba(255,255,255,.1); color: #fff; }
+  .tab[aria-selected="true"] { background: #fff; color: var(--ink); }
+  .sort { display: flex; align-items: center; gap: 10px; padding-right: 8px; font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.7); }
+  .sort select { appearance: none; height: 42px; padding: 0 34px 0 14px; border-radius: 12px; border: 1px solid rgba(255,255,255,.2); color: #fff; font: 13px var(--sans);
+    background: rgba(255,255,255,.08) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' fill='none' stroke='white' stroke-width='1.4'%3E%3Cpath d='m1 1 4 4 4-4'/%3E%3C/svg%3E") no-repeat right 14px center; }
+  .sort select option { color: #111; }
+  @media (max-width: 720px) { .sort span { display: none; } .filters { top: 78px; } .c-head { grid-template-columns: 1fr; } .c-proof { min-width: 0; } }
+
+  .sizer { margin-top: clamp(40px, 6vw, 70px); border-radius: 32px; padding: clamp(22px, 4vw, 44px); display: grid; grid-template-columns: 220px 1fr auto; gap: clamp(20px, 4vw, 50px); align-items: center; }
+  .sizer .jbox { aspect-ratio: 1; border-radius: 24px; background: rgba(255,255,255,.05); }
+  .sizer .jbox img { width: 80%; height: 80%; object-fit: cover; border-radius: 16px; position: relative; z-index: 2; }
+  .sizer p { color: rgba(255,255,255,.8); max-width: 52ch; margin-top: 10px; }
+  @media (max-width: 860px) { .sizer { grid-template-columns: 1fr; } .sizer .jbox { max-width: 200px; } }
+  .count { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.75); margin: -8px 0 16px 4px; }
+</style>
+</head>
+<body>
+<main id="main">
+  <section class="c-hero" id="scene" data-scene="assets/bg/cathedral.jpg">
+    <div class="wrap">
+      <div class="c-head">
+        <div>
+          <nav class="crumbs" aria-label="Breadcrumb"><a href="index.html">Home</a><span>/</span><span id="crumb">Shop</span></nav>
+          <h1 class="display h1" id="title">Men's Jewellery</h1>
+          <p class="lede">Oxidised 925 sterling silver, marked and scratched on purpose. Every piece rated five stars.</p>
+        </div>
+        <div class="c-proof glass" id="cproof"></div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding-bottom: clamp(80px, 10vw, 130px)">
+    <div class="wrap">
+      <div class="filters glass">
+        <div class="tabs" role="tablist" id="tabs"></div>
+        <label class="sort"><span>Sort</span>
+          <select id="sort" aria-label="Sort products">
+            <option value="featured">Featured</option>
+            <option value="reviews">Most reviewed</option>
+            <option value="low">Price: low to high</option>
+            <option value="high">Price: high to low</option>
+          </select></label>
+      </div>
+      <div class="count" id="count"></div>
+      <div class="grid" id="grid"></div>
+
+      <div class="sizer glass rv-slide">
+        <div class="jbox"><span class="glow"></span><img src="assets/products/free-ring-sizer-1.jpg" alt="Hiatus free ring sizer in use" loading="lazy"></div>
+        <div><span class="kicker">Ring Size Guarantee</span>
+          <h2 class="display h3" style="margin-top:12px;font-size:clamp(30px,3.4vw,46px)">Not sure of your size? <em>We'll send a sizer free.</em></h2>
+          <p>Put the string and paper down. If the first ring still isn't right, you get one size exchange within 30 days, and we cover postage on the new ring within Australia.</p></div>
+        <a class="btn btn-primary" href="https://hiatuscollection.com.au/products/free-ring-sizer"><span>Get a free sizer</span></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script>
+  const { $, $$, I, stars, card, totalReviews } = HX;
+  const C = HIATUS.categories, P = HIATUS.products;
+  let cat = new URLSearchParams(location.search).get('c');
+  if (!C[cat]) cat = 'all';
+  $('#scene').dataset.scene = C[cat].bg;
+  HX.init({ active: cat });
+
+  $('#cproof').innerHTML = `<div>${stars()} <b style="font-weight:500">5.0</b> · ${totalReviews} reviews</div>
+    <div><i class="sq"></i>Free express shipping over $${HIATUS.freeShipping}</div>
+    <div><i class="sq"></i>Ring Size Guarantee</div>`;
+
+  const order = ['all', 'rings', 'bracelets', 'necklaces'];
+  $('#tabs').innerHTML = order.map(k => `<button class="tab" role="tab" data-c="${k}" aria-selected="${k === cat}"><span>${k === 'all' ? 'All' : C[k].kicker}<small>${k === 'all' ? P.length : P.filter(p => p.category === k).length}</small></span></button>`).join('');
+
+  function render() {
+    const sort = $('#sort').value;
+    let list = P.filter(p => cat === 'all' || p.category === cat);
+    if (sort === 'low') list = [...list].sort((a, b) => a.price - b.price);
+    if (sort === 'high') list = [...list].sort((a, b) => b.price - a.price);
+    if (sort === 'reviews') list = [...list].sort((a, b) => b.reviews - a.reviews);
+    const best = ['sun-worshiper-pendant', 'unearthed-stacker', 'unearthed-cuff', 'unearthed-creators'];
+    $('#grid').innerHTML = list.map((p, i) => card(p, i, best.includes(p.handle) ? 'Best seller' : null)).join('');
+    $('#title').textContent = C[cat].title;
+    $('#crumb').textContent = cat === 'all' ? 'Shop all' : C[cat].kicker;
+    $('#count').textContent = `${list.length} ${list.length === 1 ? 'piece' : 'pieces'}`;
+    document.title = `${C[cat].title} | Sterling Silver | Hiatus Collection`;
+    const sc = $('.scene.on'); if (sc) sc.style.backgroundImage = `url('${C[cat].bg}')`;
+  }
+  $('#tabs').addEventListener('click', e => {
+    const t = e.target.closest('[data-c]'); if (!t) return;
+    cat = t.dataset.c;
+    $$('.tab').forEach(b => b.setAttribute('aria-selected', b === t));
+    $$('.nav a').forEach(a => a.classList.toggle('active', a.href.endsWith('c=' + cat)));
+    history.replaceState(null, '', '?c=' + cat);
+    render();
+  });
+  $('#sort').addEventListener('change', render);
+  render();
+</script>
+</body>
+</html>

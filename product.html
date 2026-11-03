@@ -1,0 +1,250 @@
+<!doctype html>
+<html lang="en-AU">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Hiatus Collection</title>
+<meta name="description" content="925 sterling silver men's jewellery by Hiatus Collection. Free express shipping on AU orders over $149.">
+<link rel="icon" href="assets/logo-black.png">
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Fragment+Mono&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+<style>
+  .p-wrap { padding: 140px 0 clamp(70px, 9vw, 120px); }
+  .crumbs { font-family: var(--mono); font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: rgba(255,255,255,.78); display: flex; gap: 10px; margin-bottom: 22px; text-shadow: 0 1px 8px rgba(0,0,0,.4); }
+  .crumbs a:hover { color: #fff; }
+  .p-grid { display: grid; grid-template-columns: 1.12fr 1fr; gap: clamp(18px, 3vw, 40px); align-items: start; }
+
+  /* gallery */
+  .gallery { display: grid; gap: 12px; }
+  .viewer { border-radius: 38px; padding: 10px; }
+  .viewer .jbox { aspect-ratio: 1 / 1.02; border-radius: 30px; background: rgba(255,255,255,.04); }
+  .viewer .jbox .piece { width: 64%; height: 64%; }
+  .viewer .photo { position: absolute; inset: 0; z-index: 4; width: 100%; height: 100%; object-fit: cover; visibility: hidden; }
+  .viewer .photo.on { visibility: visible; }
+  .viewer .chips { position: absolute; z-index: 5; top: 16px; left: 16px; right: 16px; display: flex; justify-content: space-between; pointer-events: none; }
+  .viewer .hint { position: absolute; z-index: 5; bottom: 16px; left: 50%; translate: -50% 0; }
+  .thumbs { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; padding: 8px; border-radius: 24px; }
+  .thumb { aspect-ratio: 1; border-radius: 16px; overflow: hidden; border: 1.5px solid transparent; background: rgba(255,255,255,.06); transition: border-color .2s; position: relative; }
+  .thumb img { width: 100%; height: 100%; object-fit: cover; }
+  .thumb.cut img { object-fit: contain; padding: 14%; filter: drop-shadow(0 6px 6px rgba(0,0,0,.5)); }
+  .thumb[aria-current="true"] { border-color: #fff; }
+
+  /* buy panel */
+  .buy { position: sticky; top: 92px; border-radius: 34px; padding: clamp(22px, 3vw, 36px); }
+  .buy h1 { font-size: clamp(40px, 4.2vw, 62px); margin: 14px 0 12px; }
+  .rating { display: inline-flex; gap: 10px; align-items: center; font-size: 13px; color: rgba(255,255,255,.8); }
+  .rating a { text-decoration: underline; text-underline-offset: 3px; text-decoration-color: rgba(255,255,255,.35); }
+  .price-row { display: flex; align-items: center; gap: 14px; margin: 22px 0 24px; flex-wrap: wrap; }
+  .price-row .pr { font-family: var(--mono); font-size: 24px; letter-spacing: -.01em; }
+  .price-row .pr small { font-size: 12px; color: rgba(255,255,255,.6); margin-left: 6px; }
+  .opt-hd { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 10px; font-size: 13px; }
+  .opt-hd b { font-weight: 500; }
+  .opt-hd a { font-family: var(--mono); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.75); text-decoration: underline; text-underline-offset: 3px; }
+  .sizes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; margin-bottom: 8px; }
+  .sizes.two { grid-template-columns: 1fr 1fr; }
+  .size { height: 50px; border-radius: 12px; border: 1px solid rgba(255,255,255,.2); background: rgba(255,255,255,.06); display: grid; place-items: center; line-height: 1.1; font-size: 14px; transition: background .2s, border-color .2s, color .2s; }
+  .size small { display: block; font-family: var(--mono); font-size: 9.5px; letter-spacing: .08em; color: rgba(255,255,255,.55); margin-top: 2px; }
+  .size:hover { border-color: rgba(255,255,255,.6); }
+  .size[aria-pressed="true"] { background: #fff; color: var(--ink); border-color: #fff; }
+  .size[aria-pressed="true"] small { color: rgba(15,14,12,.55); }
+  .err { font-size: 12.5px; color: #ffd2a8; min-height: 18px; margin-bottom: 6px; }
+  .shake { animation: shake .4s; }
+  @keyframes shake { 25% { translate: -5px 0; } 75% { translate: 5px 0; } }
+  .add { height: 58px; font-size: 12.5px; }
+  .perks { list-style: none; margin: 22px 0 6px; display: grid; gap: 12px; font-size: 13.5px; color: rgba(255,255,255,.85); }
+  .perks li { display: flex; gap: 12px; align-items: flex-start; }
+  .perks .sq { margin-top: 6px; }
+  .perks b { font-weight: 500; color: #fff; }
+  details { border-top: 1px solid rgba(255,255,255,.14); }
+  details:last-of-type { border-bottom: 1px solid rgba(255,255,255,.14); }
+  summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; align-items: center; padding: 16px 2px; font-family: var(--mono); font-size: 11.5px; letter-spacing: .14em; text-transform: uppercase; }
+  summary::-webkit-details-marker { display: none; }
+  summary::after { content: '+'; font-size: 18px; font-family: var(--sans); font-weight: 300; transition: rotate .3s; }
+  details[open] summary::after { rotate: 45deg; }
+  details .body { padding: 0 2px 18px; font-size: 14px; color: rgba(255,255,255,.8); display: grid; gap: 10px; }
+  .acc { margin-top: 22px; }
+
+  @media (max-width: 960px) {
+    .p-grid { grid-template-columns: 1fr; }
+    .buy { position: static; }
+    .p-wrap { padding-top: 124px; }
+  }
+  @media (max-width: 520px) { .thumbs { grid-template-columns: repeat(5, 1fr); gap: 6px; padding: 6px; } .thumb { border-radius: 11px; } .viewer { border-radius: 28px; padding: 6px; } .viewer .jbox { border-radius: 23px; } }
+
+  /* reviews + cross-sell */
+  .r-head { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; margin-bottom: 36px; }
+  .r-score { display: flex; align-items: end; gap: 22px; }
+  .r-score .n { font-family: var(--serif); font-size: clamp(90px, 10vw, 140px); line-height: .8; }
+  .r-list { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 14px; }
+  .rcard { background: #fff; border-radius: 22px; padding: 24px; display: grid; gap: 10px; align-content: start; box-shadow: 0 20px 40px -26px rgba(60,40,20,.35); }
+  .rcard .stars { color: #b08a52; }
+  .rcard h3 { font-family: var(--serif); font-weight: 500; font-size: 24px; line-height: 1.05; }
+  .rcard p { color: var(--ink-60); }
+  .rcard .who { font-size: 13px; display: flex; justify-content: space-between; padding-top: 12px; border-top: 1px solid rgba(15,14,12,.08); }
+  .rcard .who span { font-family: var(--mono); font-size: 10px; letter-spacing: .1em; text-transform: uppercase; color: #6f8a5a; }
+
+  /* sticky add bar */
+  .stick { position: fixed; z-index: 50; left: 50%; bottom: 14px; translate: -50% 160%; width: min(calc(100% - 24px), 720px); padding: 8px 8px 8px 10px; border-radius: 22px; display: flex; align-items: center; gap: 14px; transition: translate .5s var(--ease); visibility: hidden; }
+  .stick.show { translate: -50% 0; visibility: visible; }
+  .stick .th { width: 50px; height: 50px; border-radius: 14px; background: rgba(255,255,255,.08); display: grid; place-items: center; flex: none; }
+  .stick .th img { width: 80%; height: 80%; object-fit: contain; filter: drop-shadow(0 4px 4px rgba(0,0,0,.5)); }
+  .stick .t { flex: 1; min-width: 0; font-family: var(--serif); font-size: 20px; line-height: 1.1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .stick .t small { display: block; font-family: var(--mono); font-size: 11px; color: rgba(255,255,255,.7); }
+  .stick .btn { height: 48px; padding: 0 22px; }
+  @media (max-width: 520px) { .stick .t { font-size: 16px; } .stick .btn { padding: 0 16px; font-size: 10.5px; } }
+</style>
+</head>
+<body>
+<main id="main">
+  <section class="p-wrap" data-scene="assets/bg/amalfi.jpg">
+    <div class="wrap">
+      <nav class="crumbs" aria-label="Breadcrumb" id="crumbs"></nav>
+      <div class="p-grid">
+        <div class="gallery">
+          <div class="viewer glass"><div class="jbox" id="viewer"></div></div>
+          <div class="thumbs glass" id="thumbs"></div>
+        </div>
+        <div class="buy glass" id="buy"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pad paper" id="reviews">
+    <div class="wrap">
+      <div class="r-head">
+        <div class="r-score"><div class="n">5.0</div><div><span class="kicker" id="rk"></span><h2 class="display h3" style="margin-top:10px" id="rt"></h2></div></div>
+        <a class="btn btn-ink" id="rAll" href="#"><span>Read all reviews</span></a>
+      </div>
+      <div class="r-list" id="rlist"></div>
+    </div>
+  </section>
+
+  <section class="pad" data-scene="assets/bg/piazza.jpg">
+    <div class="wrap">
+      <div class="sec-head"><div><span class="kicker">Complete the look</span><h2 class="display h2">Pairs well <em>with.</em></h2></div></div>
+      <div class="grid" id="pairs"></div>
+    </div>
+  </section>
+</main>
+
+<div class="stick glass" id="stick" aria-hidden="true"></div>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+<script>
+  const { $, $$, I, money, stars, byHandle, card, cart, toast } = HX;
+  const P = HIATUS.products;
+  const p = byHandle(new URLSearchParams(location.search).get('p')) || P[0];
+  HX.init({ active: p.category });
+  document.title = `${p.title} | 925 Sterling Silver | Hiatus Collection`;
+  const C = HIATUS.categories[p.category];
+  const sized = p.variants.length > 1;
+  const isRing = p.category === 'rings';
+  const unearthed = p.handle.startsWith('unearthed');
+  let chosen = sized ? null : p.variants[0];
+
+  $('#crumbs').innerHTML = `<a href="index.html">Home</a><span>/</span><a href="collection.html?c=${p.category}">${C.kicker}</a><span>/</span><span>${p.title}</span>`;
+
+  // gallery: the floating cutout first, then the worn shots
+  $('#viewer').innerHTML = `<span class="glow"></span><span class="shadow"></span>
+    <img class="piece" src="${p.cutout}" alt="${p.title} in 925 sterling silver">
+    <img class="photo" id="photo" alt="${p.title} worn">
+    <div class="chips"><span class="chip"><i class="sq"></i>925 Sterling Silver</span><span class="chip">${stars()} ${p.reviews}</span></div>`;
+  const shots = p.images.slice(0, 4);
+  $('#thumbs').innerHTML = `<button class="thumb cut" aria-current="true" data-i="-1" aria-label="Product view"><img src="${p.cutout}" alt=""></button>` +
+    shots.map((s, i) => `<button class="thumb" data-i="${i}" aria-label="Worn view ${i + 1}"><img src="${s}" alt="" loading="lazy"></button>`).join('');
+  $('#thumbs').addEventListener('click', e => {
+    const t = e.target.closest('.thumb'); if (!t) return;
+    $$('.thumb').forEach(x => x.setAttribute('aria-current', x === t));
+    const i = +t.dataset.i, ph = $('#photo');
+    if (i < 0) ph.classList.remove('on'); else { ph.src = shots[i]; ph.classList.add('on'); }
+  });
+
+  // buy panel
+  const label = v => {
+    const m = v.title.match(/^(\d+) \((.+)\)$/);            // "9 (S/M)"
+    if (m) return `${m[1]}<small>${m[2]}</small>`;
+    const b = v.title.match(/^(\w+) - \((.+)\)$/);          // "Medium - (7.5 Inches)"
+    if (b) return `${b[1]}<small>${b[2].replace(' Inches', '″')}</small>`;
+    return v.title;
+  };
+  const sizeBlock = sized ? `
+    <div id="size"><div class="opt-hd"><b>Size <span id="sizeName" style="color:rgba(255,255,255,.6);font-weight:400"></span></b>
+      ${isRing ? `<a href="${HIATUS.store}/pages/ring-size-guarantee">Size guide</a>` : ''}</div>
+    <div class="sizes ${p.variants.length === 2 ? 'two' : ''}">${p.variants.map(v => `<button class="size" data-v="${v.id}" aria-pressed="false">${label(v)}</button>`).join('')}</div>
+    <div class="err" id="err" role="alert"></div></div>` : '';
+
+  const desc = p.description ? p.description.replace(/\s*Model Wearing/, '</p><p>Model wearing') : '';
+  $('#buy').innerHTML = `
+    <span class="kicker">${unearthed ? 'The Unearthed Collection' : p.kind}</span>
+    <h1 class="display">${p.title}</h1>
+    <div class="rating">${stars()} <span>5.0</span> <a href="#reviews">${p.reviews} reviews</a></div>
+    <div class="price-row"><span class="pr">${money(p.price)}<small>AUD</small></span><span class="chip"><i class="sq"></i>Ships free, express</span></div>
+    ${sizeBlock}
+    <button class="btn btn-primary btn-block add" id="add"><span>${sized ? 'Select a size' : 'Add to bag'} · ${money(p.price)}</span></button>
+    <ul class="perks">
+      <li><i class="sq"></i><div><b>Free express shipping</b> on AU orders over $${HIATUS.freeShipping}. Dispatched within 5–7 business days.</div></li>
+      ${isRing ? `<li><i class="sq"></i><div><b>Ring Size Guarantee.</b> One size exchange within 30 days, postage on us within Australia.</div></li>` : ''}
+      <li><i class="sq"></i><div><b>30-day store credit</b> on unworn pieces in original packaging.</div></li>
+    </ul>
+    <div class="acc">
+      ${desc ? `<details open><summary>Description</summary><div class="body"><p>${desc}</p></div></details>` : ''}
+      <details ${desc ? '' : 'open'}><summary>Material</summary><div class="body"><p>925 sterling silver${unearthed ? ', oxidised then polished so every scratch and mark reads.' : '.'}</p></div></details>
+      <details><summary>Shipping</summary><div class="body"><p>Free express shipping on Australian orders over $${HIATUS.freeShipping}. In-stock orders are dispatched within 5–7 business days, and express delivery usually takes 1–4 business days after dispatch. International shipping is calculated at checkout.</p></div></details>
+      <details><summary>Returns</summary><div class="body"><p>Within 30 days of delivery you can return an unworn, full-priced item in its original packaging for store credit. Faulty items are covered under Australian Consumer Law.</p><p><a style="text-decoration:underline" href="${HIATUS.store}/policies/refund-policy">Full returns policy</a></p></div></details>
+    </div>`;
+
+  const addBtn = $('#add');
+  const addLabel = () => `<span>${chosen ? 'Add to bag' : 'Select a size'} · ${money(p.price)}</span>`;
+  $('#buy').addEventListener('click', e => {
+    const s = e.target.closest('.size');
+    if (s) {
+      $$('.size').forEach(b => b.setAttribute('aria-pressed', b === s));
+      chosen = p.variants.find(v => v.id == s.dataset.v);
+      $('#sizeName').textContent = '· ' + chosen.title;
+      $('#err').textContent = '';
+      addBtn.innerHTML = addLabel(); stick();
+    }
+  });
+  function add() {
+    if (!chosen) {
+      document.getElementById('size').scrollIntoView({ behavior: 'smooth', block: 'center' });
+      $('#err').textContent = isRing ? 'Choose your ring size. Not sure? Order a free sizer first.' : 'Choose your size.';
+      const g = $('.sizes'); g.classList.remove('shake'); void g.offsetWidth; g.classList.add('shake');
+      return;
+    }
+    cart.add(p.handle, chosen.id);
+  }
+  addBtn.addEventListener('click', add);
+
+  // sticky add bar once the main button scrolls away
+  function stick() {
+    $('#stick').innerHTML = `<div class="th"><img src="${p.cutout}" alt=""></div>
+      <div class="t">${p.title}<small>${money(p.price)}${chosen && sized ? ' · ' + chosen.title : ''}</small></div>
+      <button class="btn btn-primary" id="add2"><span>${chosen ? 'Add to bag' : 'Choose size'}</span></button>`;
+    $('#add2').addEventListener('click', add);
+  }
+  stick();
+  new IntersectionObserver(([e]) => {
+    const show = !e.isIntersecting && e.boundingClientRect.top < 0;
+    $('#stick').classList.toggle('show', show); $('#stick').setAttribute('aria-hidden', !show);
+  }).observe(addBtn);
+
+  // reviews: this product's own reviews if we have them, otherwise collection-wide (labelled)
+  const own = p.reviewList.length > 0;
+  const list = own ? p.reviewList.map(r => ({ ...r, prod: p.title })) : P.flatMap(x => x.reviewList.slice(0, 2).map(r => ({ ...r, prod: x.title })));
+  $('#rk').textContent = `${p.reviews} reviews for this piece`;
+  $('#rt').innerHTML = own ? `Every review, <em>five stars.</em>` : `What the <em>collection</em> gets.`;
+  $('#rAll').href = `${HIATUS.store}/products/${p.handle}#judgeme_product_reviews`;
+  $('#rlist').innerHTML = list.slice(0, 6).map(r => `<article class="rcard rv">${stars()}<h3>${r.title}</h3><p>“${r.body}”</p><div class="who">${r.name}${own ? '' : ' · ' + r.prod}<span>Verified</span></div></article>`).join('');
+
+  // cross-sell: other categories first, then same category
+  const others = [...P.filter(x => x.category !== p.category), ...P.filter(x => x.category === p.category && x !== p)].slice(0, 4);
+  $('#pairs').innerHTML = others.map((x, i) => card(x, i)).join('');
+
+  if (location.hash === '#size' && sized) setTimeout(() => document.getElementById('size').scrollIntoView({ block: 'center' }), 200);
+</script>
+</body>
+</html>
