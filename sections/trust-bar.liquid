@@ -1,0 +1,45 @@
+<div class="wrap">
+  <section class="trust-wrap{% unless section.settings.overlap %} pdp-trust{% endunless %}" aria-label="Why Hiatus">
+    <div class="trust4">
+      {%- for block in section.blocks -%}
+        <div class="t4" {{ block.shopify_attributes }}>
+          <span class="t4-ic">{% render 'icon', name: block.settings.icon %}</span>
+          <div><p class="t4-t">{{ block.settings.title }}</p><p class="t4-d">{{ block.settings.text }}</p></div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "Trust panel",
+  "max_blocks": 4,
+  "settings": [
+    { "type": "checkbox", "id": "overlap", "label": "Sit half over the section above (use under the hero)", "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Trust point",
+      "settings": [
+        { "type": "select", "id": "icon", "label": "Icon", "default": "silver", "options": [
+          { "value": "silver", "label": "Silver" }, { "value": "shield", "label": "Shield" },
+          { "value": "ring", "label": "Ring" }, { "value": "truck", "label": "Truck" },
+          { "value": "returns", "label": "Returns" }, { "value": "lock", "label": "Lock" }, { "value": "star", "label": "Star" } ] },
+        { "type": "text", "id": "title", "label": "Title", "default": "Premium 925 silver" },
+        { "type": "text", "id": "text", "label": "Text", "default": "Stamped 925 sterling silver." }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Trust panel",
+    "blocks": [
+      { "type": "item", "settings": { "icon": "silver", "title": "Made to Last", "text": "Finished like an heirloom." } },
+      { "type": "item", "settings": { "icon": "shield", "title": "Lifetime Warranty", "text": "Covered for as long as you own it." } },
+      { "type": "item", "settings": { "icon": "returns", "title": "14-Day Exchanges", "text": "The right fit, or we'll exchange it within 14 days." } },
+      { "type": "item", "settings": { "icon": "truck", "title": "Free Express Shipping", "text": "Australia-wide on orders over $149." } }
+    ]
+  }]
+}
+{% endschema %}

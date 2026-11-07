@@ -1,0 +1,75 @@
+<div class="wrap page-wrap">
+  <div class="crumbs"><a href="{{ routes.root_url }}">Home</a> / {{ page.title }}</div>
+  <div class="page-hero">
+    <h1 class="display">{{ page.title }}</h1>
+    {%- assign first_p = page.content | split: '</p>' | first | split: '<p>' | last -%}
+    {%- if first_p != blank and first_p != page.content -%}
+      <p class="page-intro lede">{{ first_p | strip_html }}</p>
+    {%- endif -%}
+  </div>
+  <div class="page-body rte" id="pageBody">{{ page.content }}</div>
+</div>
+
+<script>
+(function(){
+  var b=document.getElementById('pageBody');if(!b)return;
+  var kids=Array.from(b.children),sections=[],cur=null;
+  kids.forEach(function(el){
+    if(/^H[23]$/.test(el.tagName)){
+      cur=document.createElement('div');cur.className='pg-card glass';
+      var hd=document.createElement('h3');hd.className='pg-card-h';hd.innerHTML=el.innerHTML;
+      cur.appendChild(hd);sections.push(cur);
+    } else if(cur){
+      cur.appendChild(el.cloneNode(true));
+    }
+  });
+  if(sections.length>1){
+    var intro=document.createElement('div');intro.className='pg-intro';
+    for(var i=0;i<kids.length;i++){
+      if(/^H[23]$/.test(kids[i].tagName))break;
+      if(kids[i].tagName==='P'&&i===0)continue;
+      intro.appendChild(kids[i].cloneNode(true));
+    }
+    b.innerHTML='';
+    if(intro.children.length)b.appendChild(intro);
+    sections.forEach(function(s){b.appendChild(s)});
+  }
+})();
+</script>
+
+<style>
+.page-wrap{padding:0 0 90px}
+.page-wrap .crumbs{display:block;text-align:center;max-width:760px;margin:0 auto 0;padding:0;background:none;border:0;border-radius:0;backdrop-filter:none;-webkit-backdrop-filter:none}
+.page-hero{text-align:center;padding:clamp(44px,6vw,96px) 0 clamp(28px,3.5vw,48px)}
+.page-hero h1.display{font-size:clamp(36px,4.4vw,72px);letter-spacing:.04em;margin:0}
+.page-intro{max-width:540px;margin:18px auto 0;font-size:16px;line-height:1.65;color:var(--stone-dim)}
+.page-body.rte{max-width:760px;margin:0 auto;font-size:15px;line-height:1.75}
+.page-body.rte h2,.page-body.rte h3{font-family:var(--f-display);font-weight:400;margin:48px 0 12px;font-size:clamp(22px,2.4vw,32px);letter-spacing:.03em}
+.page-body.rte h2:first-child,.page-body.rte h3:first-child{margin-top:0}
+.page-body.rte p{margin:0 0 18px}
+.page-body.rte ul,.page-body.rte ol{margin:0 0 24px;padding-left:20px}
+.page-body.rte li{margin-bottom:8px}
+.page-body.rte li::marker{color:var(--stone-mute)}
+.page-body.rte a{color:var(--stone);text-decoration:underline;text-underline-offset:3px}
+.page-body.rte hr{border:0;border-top:1px solid var(--line);margin:48px 0}
+/* auto-generated cards */
+.pg-card{background:var(--glass-strong,rgba(255,255,255,.45));backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:1px solid var(--glass-edge-soft,rgba(23,20,15,.08));border-radius:20px;padding:clamp(28px,3vw,44px);margin:0 0 20px}
+.pg-card h3.pg-card-h{font-family:var(--f-display);font-weight:400;font-size:clamp(20px,2vw,26px);letter-spacing:.03em;margin:0 0 16px}
+.pg-card p:last-child,.pg-card ul:last-child,.pg-card ol:last-child{margin-bottom:0}
+.pg-card ul,.pg-card ol{padding-left:18px}
+.pg-card li{margin-bottom:6px}
+.pg-card ol{counter-reset:step;list-style:none;padding-left:0}
+.pg-card ol li{counter-increment:step;display:grid;grid-template-columns:40px 1fr;gap:10px;align-items:baseline;padding:14px 0;border-top:1px solid var(--line)}
+.pg-card ol li:last-child{border-bottom:1px solid var(--line)}
+.pg-card ol li::before{content:counter(step,decimal-leading-zero);font-family:var(--f-body);font-size:11px;font-weight:500;letter-spacing:.18em;color:var(--stone-mute)}
+.pg-intro{margin-bottom:32px}
+.pg-intro p:last-child{margin-bottom:0}
+@media (max-width:600px){.pg-card{padding:24px;border-radius:16px}.pg-card ol li{grid-template-columns:34px 1fr}}
+</style>
+
+{% schema %}
+{
+  "name": "Page",
+  "settings": []
+}
+{% endschema %}

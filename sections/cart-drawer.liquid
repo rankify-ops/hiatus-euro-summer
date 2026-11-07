@@ -1,0 +1,97 @@
+<aside class="drawer glass" id="drawer" aria-label="Your bag" aria-hidden="true" data-count="{{ cart.item_count }}">
+  <div class="drawer-head"><h2>Your bag</h2><button class="icon-btn" type="button" id="closeCart" aria-label="Close bag">{% render 'icon', name: 'close' %}</button></div>
+  {%- if section.settings.note != blank -%}
+    <div class="ship-bar" id="shipBar"><span style="display:flex;align-items:center;gap:8px">{% render 'icon', name: 'shield' %}{{ section.settings.note }}</span></div>
+  {%- endif -%}
+  <div class="lines" id="lines">
+    {%- if cart.item_count > 0 -%}
+      {%- for item in cart.items -%}
+        <div class="line" data-key="{{ item.key }}">
+          <a class="ph" href="{{ item.url }}">{% if item.image %}{{ item.image | image_url: width: 240 | image_tag: alt: item.product.title, loading: 'lazy' }}{% endif %}</a>
+          <div>
+            <a class="n" href="{{ item.url }}">{%- render 'title-fmt', title: item.product.title -%}</a>
+            <div class="v">
+              {%- unless item.product.has_only_default_variant -%}{% render 'size-label', value: item.variant.title, mode: 'plain' %}{%- endunless -%}
+              {%- for p in item.properties -%}{%- unless p.first.first == '_' or p.last == blank -%} &middot; {{ p.last }}{%- endunless -%}{%- endfor -%}
+            </div>
+            <span class="qty-mini">
+              <button type="button" data-qty="{{ item.key }}" data-to="{{ item.quantity | minus: 1 }}" aria-label="Decrease quantity">&minus;</button>
+              <span>{{ item.quantity }}</span>
+              <button type="button" data-qty="{{ item.key }}" data-to="{{ item.quantity | plus: 1 }}" aria-label="Increase quantity">+</button>
+            </span>
+            <button type="button" class="rm" data-qty="{{ item.key }}" data-to="0">Remove</button>
+          </div>
+          <div class="line-pricing">
+            {%- assign _compare = item.variant.compare_at_price | times: item.quantity -%}
+            {%- if _compare > item.final_line_price -%}
+              <span class="price price--was"><s>{{ _compare | money }}</s></span>
+              <span class="price price--now">{{ item.final_line_price | money }}</span>
+              {%- assign _saved = _compare | minus: item.final_line_price -%}
+              <span class="price price--saved">SAVE {{ _saved | money }}</span>
+            {%- elsif item.original_line_price > item.final_line_price -%}
+              <span class="price price--was"><s>{{ item.original_line_price | money }}</s></span>
+              <span class="price price--now">{{ item.final_line_price | money }}</span>
+              {%- assign _saved = item.original_line_price | minus: item.final_line_price -%}
+              <span class="price price--saved">SAVE {{ _saved | money }}</span>
+            {%- else -%}
+              <span class="price">{{ item.final_line_price | money }}</span>
+            {%- endif -%}
+          </div>
+        </div>
+      {%- endfor -%}
+      {%- assign _has_sizer = false -%}
+      {%- for item in cart.items -%}
+        {%- if item.variant.id == 40597817098283 -%}{%- assign _has_sizer = true -%}{%- endif -%}
+      {%- endfor -%}
+      {%- unless _has_sizer -%}
+        <div class="upsell" id="upsell">
+          <div class="upsell-inner">
+            <span class="upsell-badge">FREE</span>
+            <div class="upsell-text"><strong>Exclusive Metal Storage Box, Ring Sizer &amp; Polishing Cloth</strong></div>
+            <button class="btn-upsell" type="button" id="addUpsell">ADD</button>
+          </div>
+        </div>
+      {%- endunless -%}
+    {%- else -%}
+      <div class="empty"><span>Your bag is empty.</span><a class="btn btn-glass" href="{{ routes.all_products_collection_url }}">Shop the collection</a></div>
+    {%- endif -%}
+  </div>
+  <div class="drawer-foot" id="foot">
+    {%- if cart.item_count > 0 -%}
+      {%- if cart.cart_level_discount_applications.size > 0 -%}
+        {%- for d in cart.cart_level_discount_applications -%}
+          <div class="row"><span>{{ d.title }}</span><span class="price">-{{ d.total_allocated_amount | money }}</span></div>
+        {%- endfor -%}
+      {%- endif -%}
+      <div class="row"><span>Subtotal</span><span class="price">{{ cart.total_price | money_with_currency }}</span></div>
+      {%- assign _total_compare = 0 -%}
+      {%- for item in cart.items -%}
+        {%- if item.variant.compare_at_price > item.variant.price -%}
+          {%- assign _item_save = item.variant.compare_at_price | minus: item.variant.price | times: item.quantity -%}
+          {%- assign _total_compare = _total_compare | plus: _item_save -%}
+        {%- endif -%}
+      {%- endfor -%}
+      {%- if _total_compare > 0 -%}
+        <div class="row row--save"><span>You Save</span><span class="price price--now">- {{ _total_compare | money }}</span></div>
+      {%- endif -%}
+      <form action="{{ routes.cart_url }}" method="post" id="cartForm">
+        <button class="btn btn-checkout btn-block" type="submit" name="checkout" id="checkout">Complete Checkout</button>
+      </form>
+      <div class="drawer-pay-icons">
+        {%- for type in shop.enabled_payment_types -%}
+          {{ type | payment_type_svg_tag }}
+        {%- endfor -%}
+      </div>
+      <small>Shipping and taxes calculated at checkout</small>
+    {%- endif -%}
+  </div>
+</aside>
+
+{% schema %}
+{
+  "name": "Cart drawer",
+  "settings": [
+    { "type": "text", "id": "note", "label": "Note at the top of the bag", "default": "Lifetime warranty · free express shipping on AU orders over $149" }
+  ]
+}
+{% endschema %}

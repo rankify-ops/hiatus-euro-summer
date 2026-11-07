@@ -1,0 +1,25 @@
+{%- if product.images.size > 1 -%}
+<div class="wrap">
+  <section class="pdp-sec">
+    <div class="sec-head"><div><span class="eyebrow">{{ section.settings.eyebrow }}</span><h2 class="display">{{ section.settings.heading }} <em>{{ section.settings.heading_em }}</em></h2></div></div>
+    <div class="community">
+      {%- for im in product.images offset: 1 limit: 8 -%}
+        <figure>{{ im | image_url: width: 700 | image_tag: loading: 'lazy', alt: product.title }}</figure>
+      {%- endfor -%}
+    </div>
+  </section>
+</div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Worn by you (product)",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Community" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Worn by" },
+    { "type": "text", "id": "heading_em", "label": "Heading italic word", "default": "you." }
+  ],
+  "presets": [{ "name": "Worn by you (product)" }],
+  "enabled_on": { "templates": ["product"] }
+}
+{% endschema %}

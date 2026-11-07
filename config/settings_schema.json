@@ -1,0 +1,107 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "Hiatus",
+    "theme_version": "1.0.0",
+    "theme_author": "Rankify",
+    "theme_documentation_url": "https://hiatuscollection.com.au",
+    "theme_support_url": "https://hiatuscollection.com.au"
+  },
+  {
+    "name": "Brand",
+    "settings": [
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon"
+      }
+    ]
+  },
+  {
+    "name": "Popups (Black Friday)",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Klaviyo and Omnisend load store-wide via script tags (not app embeds), so their WELCOME10 popup / CLAIM DISCOUNT teaser can't be switched off per theme in the app. This hides them in this theme only. To kill WELCOME10 everywhere, pause the form in Klaviyo/Omnisend."
+      },
+      {
+        "type": "checkbox",
+        "id": "hide_app_popups",
+        "label": "Hide Klaviyo / Omnisend popups and teaser tabs",
+        "default": true
+      }
+    ]
+  },
+  {
+    "name": "Products",
+    "settings": [
+      {
+        "type": "product",
+        "id": "sizer_product",
+        "label": "Free ring sizer product",
+        "info": "Used for the 'Add free' offer on ring pages and the size guide button."
+      },
+      {
+        "type": "product",
+        "id": "giftcard_product",
+        "label": "Gift card product"
+      }
+    ]
+  },
+  {
+    "name": "Header weather",
+    "settings": [
+      {
+        "type": "checkbox",
+        "id": "weather_on",
+        "label": "Show local time and temperature",
+        "default": true
+      },
+      {
+        "type": "text",
+        "id": "weather_place",
+        "label": "Place",
+        "default": "Palm Beach"
+      },
+      {
+        "type": "text",
+        "id": "weather_lat",
+        "label": "Latitude",
+        "default": "-28.12"
+      },
+      {
+        "type": "text",
+        "id": "weather_lon",
+        "label": "Longitude",
+        "default": "153.47"
+      },
+      {
+        "type": "text",
+        "id": "weather_tz",
+        "label": "Time zone",
+        "default": "Australia/Brisbane"
+      }
+    ]
+  },
+  {
+    "name": "Gold (hidden until stock)",
+    "settings": [
+      {
+        "type": "paragraph",
+        "content": "Keep OFF until 18K gold plated stock is listed. When on, gold products (taxonomy material contains gold) show a gold swatch and the gold care text."
+      },
+      {
+        "type": "checkbox",
+        "id": "show_gold",
+        "label": "Show gold material, swatch and care",
+        "default": false
+      },
+      {
+        "type": "textarea",
+        "id": "gold_care",
+        "label": "Gold care text",
+        "default": "Wipe with a soft, dry cloth after wear and store in your Hiatus pouch. Keep away from perfume, lotions, chlorine and abrasives to protect the 18K gold plated finish."
+      }
+    ]
+  }
+]

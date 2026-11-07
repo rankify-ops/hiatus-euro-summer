@@ -1,0 +1,33 @@
+<div class="wrap page-wrap cart-page">
+  <div class="crumbs"><a href="{{ routes.root_url }}">Home</a> / Bag</div>
+  <h1 class="display">Your <em>bag</em></h1>
+  {%- if cart.item_count > 0 -%}
+    <form action="{{ routes.cart_url }}" method="post" id="cartForm">
+      {%- for item in cart.items -%}
+        <div class="line">
+          <a class="ph" href="{{ item.url }}">{% if item.image %}{{ item.image | image_url: width: 240 | image_tag: alt: item.product.title, loading: 'lazy' }}{% endif %}</a>
+          <div>
+            <a class="n" href="{{ item.url }}">{%- render 'title-fmt', title: item.product.title -%}</a>
+            <div class="v">{% unless item.product.has_only_default_variant %}{% render 'size-label', value: item.variant.title, mode: 'plain' %}{% endunless %}</div>
+            <label class="visually-hidden" for="q-{{ item.key }}">Quantity</label>
+            <input class="qty-in" id="q-{{ item.key }}" type="number" min="0" name="updates[]" value="{{ item.quantity }}">
+            <a class="rm" href="{{ item.url_to_remove }}">Remove</a>
+          </div>
+          <span class="price">{{ item.final_line_price | money }}</span>
+        </div>
+      {%- endfor -%}
+      <div class="cart-foot">
+        <div class="row" style="display:flex;gap:24px"><span>Subtotal</span><span class="price">{{ cart.total_price | money_with_currency }}</span></div>
+        <small>Shipping and taxes calculated at checkout</small>
+        <button class="btn btn-glass" type="submit" name="update">Update bag</button>
+        <button class="btn btn-primary" type="submit" name="checkout">Checkout</button>
+      </div>
+    </form>
+  {%- else -%}
+    <p class="lede">Your bag is empty.</p>
+    <p><a class="btn btn-primary" href="{{ routes.all_products_collection_url }}">Shop the collection {% render 'icon', name: 'arrow-up' %}</a></p>
+  {%- endif -%}
+</div>
+{% schema %}
+{ "name": "Cart", "settings": [] }
+{% endschema %}

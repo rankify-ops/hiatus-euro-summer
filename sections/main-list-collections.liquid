@@ -1,0 +1,15 @@
+<div class="wrap page-wrap">
+  <h1 class="display">Shop by <em>piece</em></h1>
+  <div class="cats">
+    {%- for c in collections -%}
+      {%- if c.products_count == 0 or c.handle == 'frontpage' -%}{%- continue -%}{%- endif -%}
+      <a class="cat" href="{{ c.url }}">
+        {%- if c.image -%}{{ c.image | image_url: width: 1000 | image_tag: loading: 'lazy', alt: c.title }}{%- elsif c.products.first.featured_image -%}{{ c.products.first.featured_image | image_url: width: 1000 | image_tag: loading: 'lazy', alt: c.title }}{%- endif -%}
+        <div class="cat-label"><h3>{{ c.title }}</h3><span>Shop now {% render 'icon', name: 'arrow-up' %}</span></div>
+      </a>
+    {%- endfor -%}
+  </div>
+</div>
+{% schema %}
+{ "name": "Collections list", "settings": [] }
+{% endschema %}

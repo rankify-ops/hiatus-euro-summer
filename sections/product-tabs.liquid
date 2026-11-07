@@ -1,0 +1,64 @@
+<div class="wrap">
+  <section class="section" id="shop-tabs">
+    <div class="tabs-wrap"><div class="tabs" role="tablist" aria-label="Shop by"><span class="tab-ind" aria-hidden="true"></span>
+      {%- for block in section.blocks -%}
+        {%- assign _tl = block.settings.label | default: block.settings.collection.title | downcase -%}
+        <button type="button" role="tab" class="tab{% if _tl contains 'black friday' %} tab--bf{% endif %}" id="tab-{{ block.id }}" data-tab="{{ block.id }}" aria-controls="panel-{{ block.id }}" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}" {{ block.shopify_attributes }}>{{ block.settings.label | default: block.settings.collection.title }}</button>
+      {%- endfor -%}
+    </div></div>
+    {%- for block in section.blocks -%}
+      {%- assign col = block.settings.collection -%}
+      <div class="grid tab-panel" id="panel-{{ block.id }}" role="tabpanel" aria-labelledby="tab-{{ block.id }}"{% unless forloop.first %} hidden{% endunless %}>
+        {%- if col != blank and col.products_count > 0 -%}
+          {%- for product in col.products limit: section.settings.limit -%}
+            {%- assign _cat = '' -%}
+            {%- capture _cat %}{% render 'product-cat', product: product %}{% endcapture -%}
+            {%- if section.settings.hide_extras and _cat == 'extras' -%}{%- continue -%}{%- endif -%}
+            {% render 'product-card', product: product %}
+          {%- endfor -%}
+        {%- else -%}
+          {%- for i in (1..4) -%}
+            <article class="card"><div class="card-box"><div class="card-stage"><span class="card-media">{{ 'product-1' | placeholder_svg_tag: 'shot' }}</span></div></div><div class="card-info"><div class="card-title">Pick a collection</div></div></article>
+          {%- endfor -%}
+        {%- endif -%}
+      </div>
+    {%- endfor -%}
+  </section>
+</div>
+
+<style>
+/* BF tab label red (pt554u) */
+#shop-tabs .tab.tab--bf,#shop-tabs .tab.tab--bf:hover{color:#e0283f!important}
+#shop-tabs .tab.tab--bf[aria-selected="true"]{color:#ff3b4e!important}
+</style>
+
+{% schema %}
+{
+  "name": "Product tabs",
+  "max_blocks": 6,
+  "settings": [
+    { "type": "range", "id": "limit", "label": "Products per tab", "min": 4, "max": 24, "step": 1, "default": 12 },
+    { "type": "checkbox", "id": "hide_extras", "label": "Hide gift card and ring sizer", "default": true }
+  ],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "Tab",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Label", "default": "Black Friday" },
+        { "type": "collection", "id": "collection", "label": "Collection" }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Product tabs",
+    "blocks": [
+      { "type": "tab", "settings": { "label": "Black Friday" } },
+      { "type": "tab", "settings": { "label": "Best sellers" } },
+      { "type": "tab", "settings": { "label": "Rings" } },
+      { "type": "tab", "settings": { "label": "Bracelets" } },
+      { "type": "tab", "settings": { "label": "Necklaces" } }
+    ]
+  }]
+}
+{% endschema %}

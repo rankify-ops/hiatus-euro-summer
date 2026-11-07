@@ -1,0 +1,55 @@
+{%- comment -%}
+  Product card. params: product
+{%- endcomment -%}
+{%- liquid
+  assign sized = false
+  if product.has_only_default_variant == false and product.variants.size > 1
+    assign sized = true
+  endif
+  assign imgs = product.images
+  assign first_img = product.featured_image | default: imgs.first
+-%}
+<article class="card{% if sized %} sized{% endif %}" data-card="{{ product.handle }}" data-idx="0"
+  data-imgs='[{% for im in imgs limit: 10 %}"{{ im | image_url: width: 900 }}"{% unless forloop.last %},{% endunless %}{% endfor %}]'>
+  <div class="card-box">
+    <div class="card-stage">
+      <a class="card-media" href="{{ product.url }}" aria-label="{{ product.title | escape }}">
+        {%- if first_img -%}
+          {{ first_img | image_url: width: 900 | image_tag: class: 'shot', loading: 'lazy', alt: product.title, sizes: '(min-width: 1200px) 25vw, 50vw', widths: '360, 540, 720, 900' }}
+        {%- else -%}
+          {{ 'product-1' | placeholder_svg_tag: 'shot' }}
+        {%- endif -%}
+      </a>
+      {%- if imgs.size > 1 -%}
+        <button type="button" class="card-arrow l" data-cimg="-1" aria-label="Previous image">{% render 'icon', name: 'l' %}</button>
+        <button type="button" class="card-arrow r" data-cimg="1" aria-label="Next image">{% render 'icon', name: 'r' %}</button>
+        <div class="card-dots" aria-hidden="true">{% for im in imgs limit: 10 %}<i{% if forloop.first %} class="on"{% endif %}></i>{% endfor %}</div>
+      {%- endif -%}
+      {%- if sized -%}
+        <div class="card-sizes{% if product.variants.size <= 2 %} two{% endif %}" role="group" aria-label="Choose a size for {{ product.title | escape }}">
+          {%- for v in product.variants -%}
+            {%- liquid
+              assign pre = false
+              if v.available and v.inventory_management != blank and v.inventory_quantity <= 0
+                assign pre = true
+              endif
+            -%}
+            <button type="button" data-cardvariant="{{ v.id }}" data-title="{{ product.title | escape }}"{% if pre %} class="pre"{% endif %}{% unless v.available %} disabled class="sold-out"{% endunless %}>
+              {%- render 'size-label', value: v.title, mode: 'card' -%}{%- if pre -%}<em>Pre-order</em>{%- endif -%}
+            </button>
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+      <button type="button" class="wish-btn" data-wish="{{ product.handle }}" aria-label="Save {{ product.title | escape }} to wishlist">{% render 'icon', name: 'ribbon' %}</button>
+    </div>
+    {%- unless product.available -%}
+      <span class="card-qa" aria-disabled="true">Sold out</span>
+    {%- endunless -%}
+  </div>
+  <div class="card-info">
+    <a class="card-info-text" href="{{ product.url }}">
+      <div class="card-title">{%- render 'title-fmt', title: product.title, card: true -%}</div>
+      <div class="card-price">{{ product.price | money }} {{ cart.currency.iso_code }}</div>
+    </a>
+  </div>
+</article>

@@ -1,0 +1,50 @@
+{%- comment -%} "Worn by you": hand-picked photos, or the 2nd photo of each product in a collection. {%- endcomment -%}
+<div class="wrap">
+  <section class="section">
+    <div class="sec-head"><div>{% if section.settings.eyebrow != blank %}<span class="eyebrow">{{ section.settings.eyebrow }}</span>{% endif %}<h2 class="display">{{ section.settings.heading }}{% if section.settings.heading_em != blank %} <em>{{ section.settings.heading_em }}</em>{% endif %}</h2></div></div>
+    <div class="worn">
+      {%- if section.blocks.size > 0 -%}
+        {%- for block in section.blocks -%}
+          {%- assign p = block.settings.product -%}
+          {%- capture _cat %}{% render 'product-cat', product: p %}{% endcapture -%}
+          {%- if p != blank and _cat == 'extras' or p.handle contains 'sizer' or p.gift_card? -%}{%- continue -%}{%- endif -%}
+          <a href="{{ p.url | default: '#' }}" {{ block.shopify_attributes }}>
+            {%- if block.settings.image != blank -%}{{ block.settings.image | image_url: width: 700 | image_tag: loading: 'lazy', alt: p.title }}{%- elsif p.images.size > 1 -%}{{ p.images[1] | image_url: width: 700 | image_tag: loading: 'lazy', alt: p.title }}{%- else -%}{{ 'lifestyle-1' | placeholder_svg_tag }}{%- endif -%}
+            {%- if p != blank -%}<span>{{ p.title }} &middot; {{ p.price | money }}</span>{%- endif -%}
+          </a>
+        {%- endfor -%}
+      {%- elsif section.settings.collection != blank -%}
+        {%- assign _n = 0 -%}
+        {%- for p in section.settings.collection.products -%}
+          {%- if _n >= 5 -%}{%- break -%}{%- endif -%}
+          {%- capture _cat %}{% render 'product-cat', product: p %}{% endcapture -%}
+          {%- if _cat == 'extras' or p.handle contains 'sizer' or p.gift_card? -%}{%- continue -%}{%- endif -%}
+          {%- assign _n = _n | plus: 1 -%}
+          <a href="{{ p.url }}">
+            {%- if p.images.size > 1 -%}{{ p.images[1] | image_url: width: 700 | image_tag: loading: 'lazy', alt: p.title }}{%- else -%}{{ p.featured_image | image_url: width: 700 | image_tag: loading: 'lazy', alt: p.title }}{%- endif -%}
+            <span>{{ p.title }} &middot; {{ p.price | money }}</span>
+          </a>
+        {%- endfor -%}
+      {%- endif -%}
+    </div>
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "Worn by you",
+  "max_blocks": 8,
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Worn by you" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Earn the" },
+    { "type": "text", "id": "heading_em", "label": "Heading italic word", "default": "pause." },
+    { "type": "collection", "id": "collection", "label": "Collection", "info": "Used when you haven't added photo blocks. Shows each product's second photo." }
+  ],
+  "blocks": [
+    { "type": "photo", "name": "Photo", "settings": [
+      { "type": "product", "id": "product", "label": "Product" },
+      { "type": "image_picker", "id": "image", "label": "Photo", "info": "Leave empty to use the product's second photo." } ] }
+  ],
+  "presets": [{ "name": "Worn by you" }]
+}
+{% endschema %}

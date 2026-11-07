@@ -1,0 +1,29 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "type": "header",
+  "name": "Header group",
+  "sections": {
+    "header": {
+      "type": "header",
+      "settings": {
+        "topbar_on": true,
+        "topbar_text": "LIFETIME WARRANTY · 14-DAY SIZE EXCHANGES · FREE EXPRESS SHIPPING ON ALL ORDERS FOR BLACK FRIDAY",
+        "menu": "main-menu",
+        "search_placeholder": "Search rings, bracelets, necklaces",
+        "promo_label": "Black Friday",
+        "promo_link": "/collections/black-friday"
+      }
+    }
+  },
+  "order": [
+    "header"
+  ]
+}

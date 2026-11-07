@@ -1,0 +1,11 @@
+{%- comment -%} "9 (S/M)" -> 9 ; "Medium - (7.5 Inches)" -> Medium <small>7.5"</small> {%- endcomment -%}
+{%- assign _v = value | strip -%}
+{%- assign _first = _v | split: ' ' | first -%}
+{%- assign _num = _first | plus: 0 -%}
+{%- if _num > 0 and _v contains '(' -%}
+  {%- if mode == 'plain' -%}US {{ _first }}{%- elsif mode == 'card' -%}<b>{{ _first }}</b>{%- else -%}{{ _first }}{%- endif -%}
+{%- elsif _v contains ' - (' -%}
+  {%- assign _parts = _v | split: ' - (' -%}
+  {%- assign _sub = _parts.last | remove: ')' | replace: ' Inches', '"' -%}
+  {%- if mode == 'plain' -%}{{ _parts.first }} {{ _sub }}{%- elsif mode == 'card' -%}<b>{{ _parts.first }}</b><small>{{ _sub }}</small>{%- else -%}{{ _parts.first }} {{ _sub }}{%- endif -%}
+{%- else -%}{{ _v }}{%- endif -%}

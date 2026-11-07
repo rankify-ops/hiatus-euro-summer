@@ -1,0 +1,124 @@
+<style>
+.shopify-section:has(.bf-hh){background:#0b0a09}
+.bf-hh{position:relative;background:#0b0a09;margin:0;padding:0;overflow:hidden;touch-action:pan-y;-webkit-font-smoothing:antialiased}
+.bf-hh__stage{position:relative;aspect-ratio:2400/1000;line-height:0}
+.bf-hh__pane{position:absolute;top:0;right:0;bottom:0;width:47.917%}
+.bf-hh__pane:after{content:'';position:absolute;z-index:2;top:0;bottom:0;left:-1px;width:33%;pointer-events:none;background:linear-gradient(to right,#0b0a09 0%,rgba(11,10,9,.62) 28%,rgba(11,10,9,.3) 55%,rgba(11,10,9,.08) 80%,rgba(11,10,9,0) 100%)}
+.bf-hh__s{display:block;position:absolute;inset:0;opacity:0;transition:opacity .9s ease;z-index:0}
+.bf-hh__s.is-on{opacity:1;z-index:1}
+.bf-hh__s img{width:100%;height:100%;object-fit:cover;display:block}
+.bf-hh__txt{position:absolute;z-index:2;left:6.25%;top:33%;color:#efe8dc;line-height:1}
+.bf-hh__k{font:500 clamp(11px,.92vw,22px)/1 Inter,sans-serif;letter-spacing:.32em;color:#a3132a;margin:0 0 1.45vw;text-transform:uppercase}
+.bf-hh__h{font:500 clamp(48px,5.33vw,128px)/.95 'EB Garamond',Georgia,serif;color:#efe8dc;margin:0;letter-spacing:.04em;text-transform:uppercase}
+.bf-hh__btn{display:inline-block;margin-top:3.1vw;padding:clamp(12px,1.05vw,22px) clamp(22px,1.6vw,38px);border:1.5px solid #efe8dc;color:#efe8dc;text-decoration:none;font:500 clamp(11px,.72vw,17px)/1 Inter,sans-serif;letter-spacing:.3em;text-transform:uppercase;transition:background .25s,color .25s}
+.bf-hh__btn:hover{background:#efe8dc;color:#0b0a09}
+.bf-hh__d{font:400 clamp(10px,.6vw,14px)/1 Inter,sans-serif;letter-spacing:.28em;color:#8a7f70;margin:1.3vw 0 0}
+.bf-hh__vid-mob{display:none}
+.bf-hh__dots{position:absolute;z-index:3;left:0;right:0;bottom:100px;display:flex;justify-content:center;gap:12px;line-height:1}
+.bf-hh__dot{width:7px;height:7px;padding:0;border:0;border-radius:50%;background:rgba(255,255,255,.35);cursor:pointer}
+.bf-hh__dot.is-on{background:#fff}
+@media(max-width:749px){
+.bf-hh__vid-mob{display:block;position:absolute;inset:0;z-index:1}
+.bf-hh__vid-mob video{width:100%;height:100%;object-fit:cover;display:block}
+.bf-hh__vid-mob~.bf-hh__pane{display:none}
+.bf-hh__txt{display:none}
+.bf-hh__dots{display:none}
+.bf-hh__stage{aspect-ratio:9/16}.bf-hh__pane{position:absolute;inset:0;width:auto}.bf-hh__pane:after{display:none}
+.bf-hh__txt{position:relative;left:auto;top:auto;text-align:center;margin-top:-2vw;padding:0 20px}
+.bf-hh__k{font-size:11px;margin-bottom:16px}
+.bf-hh__h{font-size:clamp(40px,11.3vw,72px)}
+.bf-hh__btn{margin-top:26px;padding:13px 24px;font-size:10.5px}
+.bf-hh__d{font-size:9.5px;margin-top:16px;letter-spacing:.24em}
+.bf-hh__dots{position:relative;bottom:auto;padding:22px 0 24px;gap:10px}.bf-hh__dot{width:6px;height:6px}}
+</style>
+
+<div class="bf-hh" allow-transparent-header data-bf-hh>
+  <div class="bf-hh__stage">
+    <div class="bf-hh__vid-mob">
+      <video autoplay loop muted playsinline>
+        <source src="{{ 'hero-mobile-video.mp4' | asset_url }}" type="video/mp4">
+      </video>
+    </div>
+    <div class="bf-hh__pane">
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'slide' -%}
+        <a class="bf-hh__s{% if forloop.first %} is-on{% endif %}" href="{{ block.settings.link | default: '/pages/black-friday' }}" tabindex="-1" aria-hidden="true">
+          <picture>
+            {%- if block.settings.mobile_image != blank -%}
+              <source media="(max-width:749px)" srcset="{{ block.settings.mobile_image | image_url: width: 1080 }}" width="1080" height="880">
+            {%- elsif block.settings.mobile_asset != blank -%}
+              <source media="(max-width:749px)" srcset="{{ block.settings.mobile_asset | asset_url }}" width="1080" height="880">
+            {%- endif -%}
+            {%- if block.settings.desktop_image != blank -%}
+              <img src="{{ block.settings.desktop_image | image_url: width: 1150 }}" alt="" width="1150" height="1000"{% if forloop.first %} fetchpriority="high"{% else %} loading="lazy"{% endif %}>
+            {%- elsif block.settings.desktop_asset != blank -%}
+              <img src="{{ block.settings.desktop_asset | asset_url }}" alt="" width="1150" height="1000"{% if forloop.first %} fetchpriority="high"{% else %} loading="lazy"{% endif %}>
+            {%- else -%}
+              <img src="{{ 'hero-terrace.webp' | asset_url }}" alt="" width="1150" height="1000"{% if forloop.first %} fetchpriority="high"{% else %} loading="lazy"{% endif %}>
+            {%- endif -%}
+          </picture>
+        </a>
+      {%- endif -%}
+    {%- endfor -%}
+  </div></div>
+  <div class="bf-hh__txt">
+    <p class="bf-hh__k">{{ section.settings.eyebrow }}</p>
+    <h2 class="bf-hh__h">{{ section.settings.heading_line_1 }}<br>{{ section.settings.heading_line_2 }}</h2>
+    <a class="bf-hh__btn" href="{{ section.settings.btn_link | default: '/pages/black-friday' }}">{{ section.settings.btn_label }}</a>
+    <p class="bf-hh__d">{{ section.settings.subtext }}</p>
+  </div>
+  <div class="bf-hh__dots">
+    {%- for block in section.blocks -%}
+      {%- if block.type == 'slide' -%}
+        <button type="button" class="bf-hh__dot{% if forloop.first %} is-on{% endif %}" aria-label="Slide {{ forloop.index }}"></button>
+      {%- endif -%}
+    {%- endfor -%}
+  </div>
+</div>
+
+<script>
+(function(){var r=document.querySelector('[data-bf-hh]');if(!r||r.dataset.init)return;r.dataset.init=1;
+var S=r.querySelectorAll('.bf-hh__s'),D=r.querySelectorAll('.bf-hh__dot'),i=0,t;
+function go(n){S[i].classList.remove('is-on');D[i].classList.remove('is-on');i=(n+S.length)%S.length;S[i].classList.add('is-on');D[i].classList.add('is-on');r.dataset.i=i;}
+function play(){clearInterval(t);t=setInterval(function(){go(i+1)},5000);}
+D.forEach(function(d,k){d.addEventListener('click',function(e){e.preventDefault();go(k);play();});});
+var x0=null,moved=false;r.addEventListener('touchstart',function(e){x0=e.touches[0].clientX;moved=false;},{passive:true});
+r.addEventListener('touchend',function(e){if(x0===null)return;var dx=e.changedTouches[0].clientX-x0;if(Math.abs(dx)>40){moved=true;go(i+(dx<0?1:-1));play();}x0=null;});
+r.addEventListener('click',function(e){if(moved){e.preventDefault();moved=false;}},true);
+if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches)play();})();
+</script>
+
+{% schema %}
+{
+  "name": "Hero",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Black Friday" },
+    { "type": "text", "id": "heading_line_1", "label": "Heading line 1", "default": "Up to" },
+    { "type": "text", "id": "heading_line_2", "label": "Heading line 2", "default": "40% off" },
+    { "type": "text", "id": "btn_label", "label": "Button label", "default": "Shop the sale" },
+    { "type": "url", "id": "btn_link", "label": "Button link" },
+    { "type": "text", "id": "subtext", "label": "Subtext", "default": "6 – 30 NOVEMBER · NO CODE NEEDED" }
+  ],
+  "blocks": [
+    {
+      "type": "slide",
+      "name": "Slide",
+      "settings": [
+        { "type": "image_picker", "id": "desktop_image", "label": "Desktop image (image picker)" },
+        { "type": "text", "id": "desktop_asset", "label": "Desktop image (asset filename)", "info": "e.g. bf-hero-c-pane-desktop.jpg — used if no image picked above" },
+        { "type": "image_picker", "id": "mobile_image", "label": "Mobile image (image picker)" },
+        { "type": "text", "id": "mobile_asset", "label": "Mobile image (asset filename)", "info": "e.g. bf-hero-c-photo-mobile.jpg — used if no image picked above" },
+        { "type": "url", "id": "link", "label": "Slide link" }
+      ]
+    }
+  ],
+  "presets": [{
+    "name": "Hero",
+    "blocks": [
+      { "type": "slide", "settings": { "desktop_asset": "bf-hero-c-pane-desktop.jpg", "mobile_asset": "bf-hero-c-photo-mobile.jpg" } },
+      { "type": "slide", "settings": { "desktop_asset": "bf-hero-b-pane-desktop.jpg", "mobile_asset": "bf-hero-b-photo-mobile.jpg" } },
+      { "type": "slide", "settings": { "desktop_asset": "bf-hero-d-pane-desktop.jpg", "mobile_asset": "bf-hero-d-photo-mobile.jpg" } }
+    ]
+  }]
+}
+{% endschema %}

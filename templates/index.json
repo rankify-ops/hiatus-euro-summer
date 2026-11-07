@@ -1,0 +1,299 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "blocks": {
+        "s1": {
+          "type": "slide",
+          "settings": {
+            "desktop_asset": "bf-hero-c-pane-desktop.jpg",
+            "mobile_asset": "bf-hero-c-photo-mobile.jpg",
+            "link": "/collections/black-friday"
+          }
+        },
+        "s2": {
+          "type": "slide",
+          "settings": {
+            "desktop_asset": "bf-hero-b-pane-desktop.jpg",
+            "mobile_asset": "bf-hero-b-photo-mobile.jpg",
+            "link": "/collections/black-friday"
+          }
+        },
+        "s3": {
+          "type": "slide",
+          "settings": {
+            "desktop_asset": "bf-hero-d-pane-desktop.jpg",
+            "mobile_asset": "bf-hero-d-photo-mobile.jpg",
+            "link": "/collections/black-friday"
+          }
+        }
+      },
+      "block_order": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "settings": {
+        "eyebrow": "Black Friday",
+        "heading_line_1": "Up to",
+        "heading_line_2": "40% off",
+        "btn_label": "Shop the sale",
+        "btn_link": "/collections/black-friday",
+        "subtext": "6 – 30 NOVEMBER · NO CODE NEEDED"
+      }
+    },
+    "trust": {
+      "type": "trust-bar",
+      "blocks": {
+        "t1": {
+          "type": "item",
+          "settings": {
+            "icon": "silver",
+            "title": "Made to Last",
+            "text": "Finished like an heirloom."
+          }
+        },
+        "t2": {
+          "type": "item",
+          "settings": {
+            "icon": "shield",
+            "title": "Lifetime Warranty",
+            "text": "Covered for as long as you own it."
+          }
+        },
+        "t3": {
+          "type": "item",
+          "settings": {
+            "icon": "returns",
+            "title": "14-Day Exchanges",
+            "text": "The right fit, or we'll exchange it within 14 days."
+          }
+        },
+        "t4": {
+          "type": "item",
+          "settings": {
+            "icon": "truck",
+            "title": "Free Express Shipping",
+            "text": "For Black Friday. Australia-wide, no minimum."
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t2",
+        "t3",
+        "t4"
+      ],
+      "disabled": true,
+      "settings": {
+        "overlap": true
+      }
+    },
+    "tabs": {
+      "type": "product-tabs",
+      "blocks": {
+        "sale": {
+          "type": "tab",
+          "settings": {
+            "label": "Black Friday",
+            "collection": "black-friday"
+          }
+        },
+        "best": {
+          "type": "tab",
+          "settings": {
+            "label": "Best sellers",
+            "collection": "best-sellers"
+          }
+        },
+        "rings": {
+          "type": "tab",
+          "settings": {
+            "label": "Rings",
+            "collection": "mens-rings"
+          }
+        },
+        "bracelets": {
+          "type": "tab",
+          "settings": {
+            "label": "Bracelets",
+            "collection": "mens-bracelets"
+          }
+        },
+        "necklaces": {
+          "type": "tab",
+          "settings": {
+            "label": "Necklaces",
+            "collection": "mens-necklaces"
+          }
+        }
+      },
+      "block_order": [
+        "sale",
+        "best",
+        "rings",
+        "bracelets",
+        "necklaces"
+      ],
+      "settings": {
+        "limit": 12,
+        "hide_extras": true
+      }
+    },
+    "cats": {
+      "type": "category-tiles",
+      "blocks": {
+        "c1": {
+          "type": "tile",
+          "settings": {
+            "collection": "mens-rings",
+            "label": "Rings",
+            "cta": "Shop now"
+          }
+        },
+        "c2": {
+          "type": "tile",
+          "settings": {
+            "collection": "mens-bracelets",
+            "label": "Bracelets",
+            "cta": "Shop now"
+          }
+        },
+        "c3": {
+          "type": "tile",
+          "settings": {
+            "collection": "mens-necklaces",
+            "label": "Necklaces",
+            "cta": "Shop now"
+          }
+        }
+      },
+      "block_order": [
+        "c1",
+        "c2",
+        "c3"
+      ],
+      "settings": {
+        "eyebrow": "Shop by piece",
+        "heading": "Made to",
+        "heading_em": "last."
+      }
+    },
+    "story": {
+      "type": "story",
+      "blocks": {
+        "s1": {
+          "type": "spec",
+          "settings": {
+            "label": "Metal",
+            "value": "925"
+          }
+        },
+        "s2": {
+          "type": "spec",
+          "settings": {
+            "label": "Warranty",
+            "value": "Lifetime"
+          }
+        },
+        "s3": {
+          "type": "spec",
+          "settings": {
+            "label": "Ring sizes",
+            "value": "US 6–13"
+          }
+        }
+      },
+      "block_order": [
+        "s1",
+        "s2",
+        "s3"
+      ],
+      "settings": {
+        "eyebrow": "The Unearthed finish",
+        "line_1": "Silver that wears in,",
+        "line_2": "not out.",
+        "text": "<p>Premium 925 sterling silver from the Unearthed collection. Finished like an heirloom, and backed by a lifetime warranty.</p>",
+        "btn_label": "Shop Unearthed",
+        "btn_link": ""
+      }
+    },
+    "worn": {
+      "type": "worn-strip",
+      "blocks": {
+        "w1": {
+          "type": "photo",
+          "settings": {
+            "product": "unearthed-creators"
+          }
+        },
+        "w2": {
+          "type": "photo",
+          "settings": {
+            "product": "cuban-link-bracelet-925-silver"
+          }
+        },
+        "w3": {
+          "type": "photo",
+          "settings": {
+            "product": "paradox-pearls",
+            "image": "shopify://shop_images/6-min_8925d527-05ce-4bae-895b-4b62db312791.jpg"
+          }
+        },
+        "w4": {
+          "type": "photo",
+          "settings": {
+            "product": "unearthed-cuff",
+            "image": "shopify://shop_images/Untitleddesign_40_-min.jpg"
+          }
+        },
+        "w5": {
+          "type": "photo",
+          "settings": {
+            "product": "sun-worshiper-pendant"
+          }
+        }
+      },
+      "block_order": [
+        "w1",
+        "w2",
+        "w3",
+        "w4",
+        "w5"
+      ],
+      "settings": {
+        "eyebrow": "Worn by you",
+        "heading": "Earn the",
+        "heading_em": "pause.",
+        "collection": "all"
+      }
+    },
+    "join": {
+      "type": "newsletter",
+      "settings": {
+        "heading": "New drops land here first.",
+        "text": "Join the list to hear about new releases.",
+        "button": "Join",
+        "success": "You're on the list."
+      }
+    }
+  },
+  "order": [
+    "hero",
+    "trust",
+    "tabs",
+    "cats",
+    "story",
+    "worn",
+    "join"
+  ]
+}

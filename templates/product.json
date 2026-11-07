@@ -1,0 +1,153 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-product",
+      "settings": {
+        "benefit_rings": "Silver that wears in, not out.",
+        "benefit_bracelets": "Ready for every occasion.",
+        "benefit_necklaces": "Worn today. Inherited tomorrow.",
+        "info_925": "It's 92.5% pure silver, mixed with 7.5% copper for strength. Every piece is stamped 925.",
+        "info_unearth": "The Unearthed finish. Worked into every piece so each one is individually unique. No two are crafted the same.",
+        "care": "- Premium sterling silver. Swim, train and shower in it.\n- After water, rinse then polish with the cloth that comes with your order.\n- Store it in the pouch in your collectors tin.\n- Put pieces on after aftershave spray.\n- Don't use harsh cleaners. They can damage the finish.",
+        "delivery": "In-stock orders are dispatched within 1–3 business days. Free express shipping on all AU orders for Black Friday. Rings include our Ring Size Guarantee: one size exchange within 14 days of delivery. Full-price pieces can be returned unworn within 30 days for store credit; sale pieces aren't eligible for change-of-mind returns. Lifetime warranty against defects in materials or workmanship."
+      }
+    },
+    "trust": {
+      "type": "trust-bar",
+      "blocks": {
+        "t1": {
+          "type": "item",
+          "settings": {
+            "icon": "silver",
+            "title": "Made to Last",
+            "text": "Finished like an heirloom."
+          }
+        },
+        "t2": {
+          "type": "item",
+          "settings": {
+            "icon": "shield",
+            "title": "Lifetime Warranty",
+            "text": "Covered for as long as you own it."
+          }
+        },
+        "t3": {
+          "type": "item",
+          "settings": {
+            "icon": "returns",
+            "title": "14-Day Exchanges",
+            "text": "The right fit, or we'll exchange it within 14 days."
+          }
+        },
+        "t4": {
+          "type": "item",
+          "settings": {
+            "icon": "truck",
+            "title": "Free Express Shipping",
+            "text": "Australia-wide on orders over $149."
+          }
+        }
+      },
+      "block_order": [
+        "t1",
+        "t2",
+        "t3",
+        "t4"
+      ],
+      "settings": {
+        "overlap": false
+      }
+    },
+    "reasons": {
+      "type": "product-reasons",
+      "settings": {
+        "heading": "For the moments the world",
+        "heading_em": "stops.",
+        "r1_title": "",
+        "r1_text": "",
+        "r2u_title": "Silver that wears in, not out.",
+        "r2u_text": "The more you wear it, the more it becomes yours. Every day leaves its mark, and the piece only gets better for it.",
+        "r2b_title": "Ready for every occasion.",
+        "r2b_text": "",
+        "r2n_title": "Earn the pause.",
+        "r2n_text": "",
+        "r3_title": "",
+        "r3_text": ""
+      }
+    },
+    "video": {
+      "type": "product-video",
+      "settings": {
+        "eyebrow": "Up close",
+        "caption": "Premium 925 sterling silver, up close."
+      }
+    },
+    "faq": {
+      "type": "product-faq",
+      "settings": {
+        "heading": "Questions,",
+        "heading_em": "answered.",
+        "sub": "Anything else? Write to us at hello@hiatuscollection.com.au."
+      }
+    },
+    "community": {
+      "type": "product-community",
+      "disabled": true,
+      "settings": {
+        "eyebrow": "Community",
+        "heading": "Worn by",
+        "heading_em": "you."
+      }
+    },
+    "reviews": {
+      "type": "product-reviews",
+      "blocks": {
+        "judgeme_review_widget": {
+          "type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "review_data": "real_data",
+            "max_width": 1200,
+            "show_shop_reviews": false,
+            "empty_state": "hide_widget"
+          }
+        }
+      },
+      "block_order": [
+        "judgeme_review_widget"
+      ],
+      "settings": {
+        "heading": "In their",
+        "heading_em": "words."
+      }
+    },
+    "pairs": {
+      "type": "product-pairs",
+      "settings": {
+        "eyebrow": "Complete the look",
+        "heading": "Wear it",
+        "heading_em": "with.",
+        "collection": "",
+        "other_types": true
+      }
+    }
+  },
+  "order": [
+    "main",
+    "trust",
+    "reasons",
+    "video",
+    "faq",
+    "community",
+    "reviews",
+    "pairs"
+  ]
+}

@@ -1,0 +1,29 @@
+{%- liquid
+  assign vid = section.settings.video
+  if product.metafields.custom.video != blank
+    assign vid = product.metafields.custom.video.value
+  endif
+-%}
+{%- if vid != blank -%}
+<div class="wrap">
+  <section class="pdp-sec">
+    <div class="video glass">
+      {{ vid | video_tag: autoplay: true, loop: true, muted: true, playsinline: true, controls: false, image_size: '1600x' }}
+      <div class="video-cap"><span class="eyebrow">{{ section.settings.eyebrow }}</span><b>{{ section.settings.caption }}</b></div>
+    </div>
+  </section>
+</div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Product video",
+  "settings": [
+    { "type": "video", "id": "video", "label": "Video", "info": "Hidden until a video is added. A product metafield custom.video (file) overrides this per product." },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Up close" },
+    { "type": "text", "id": "caption", "label": "Caption", "default": "Premium 925 sterling silver, up close." }
+  ],
+  "presets": [{ "name": "Product video" }],
+  "enabled_on": { "templates": ["product"] }
+}
+{% endschema %}

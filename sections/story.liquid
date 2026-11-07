@@ -1,0 +1,55 @@
+<div class="wrap">
+  <section class="section">
+    <div class="story glass narrow">
+      <div class="story-copy">
+        {%- if section.settings.eyebrow != blank -%}<span class="eyebrow">{{ section.settings.eyebrow }}</span>{%- endif -%}
+        <h2 class="display">{{ section.settings.line_1 }}{% if section.settings.line_2 != blank %}<br><em>{{ section.settings.line_2 }}</em>{% endif %}</h2>
+        {{ section.settings.text }}
+        {%- if section.blocks.size > 0 -%}
+          <dl class="story-specs">
+            {%- for block in section.blocks -%}<div {{ block.shopify_attributes }}><dt>{{ block.settings.label }}</dt><dd>{{ block.settings.value }}</dd></div>{%- endfor -%}
+          </dl>
+        {%- endif -%}
+        {%- if section.settings.btn_label != blank -%}
+          <div><a class="btn btn-primary" href="{{ section.settings.btn_link | default: routes.all_products_collection_url }}">{{ section.settings.btn_label }} {% render 'icon', name: 'arrow' %}</a></div>
+        {%- endif -%}
+      </div>
+      <div class="story-img">
+        {%- if section.settings.image != blank -%}
+          {{ section.settings.image | image_url: width: 1400 | image_tag: loading: 'lazy', alt: section.settings.image.alt, sizes: '(min-width: 821px) 50vw, 100vw', widths: '700, 1000, 1400' }}
+        {%- else -%}
+          <img src="{{ 'story-cuff.webp' | asset_url }}" alt="Unearth Cuff on stone in hard sunlight" loading="lazy" width="900" height="1219">
+        {%- endif -%}
+      </div>
+    </div>
+  </section>
+</div>
+
+{% schema %}
+{
+  "name": "Story",
+  "max_blocks": 4,
+  "settings": [
+    { "type": "image_picker", "id": "image", "label": "Image" },
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "The Unearthed finish" },
+    { "type": "text", "id": "line_1", "label": "Heading line 1", "default": "Silver that wears in," },
+    { "type": "text", "id": "line_2", "label": "Heading line 2 (italic)", "default": "not out." },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Premium 925 sterling silver from the Unearthed collection. Finished like an heirloom, and backed by a lifetime warranty.</p>" },
+    { "type": "text", "id": "btn_label", "label": "Button label", "default": "Shop Unearthed" },
+    { "type": "url", "id": "btn_link", "label": "Button link" }
+  ],
+  "blocks": [
+    { "type": "spec", "name": "Spec", "settings": [
+      { "type": "text", "id": "label", "label": "Label", "default": "Metal" },
+      { "type": "text", "id": "value", "label": "Value", "default": "925" } ] }
+  ],
+  "presets": [{
+    "name": "Story",
+    "blocks": [
+      { "type": "spec", "settings": { "label": "Metal", "value": "925" } },
+      { "type": "spec", "settings": { "label": "Warranty", "value": "Lifetime" } },
+      { "type": "spec", "settings": { "label": "Ring sizes", "value": "US 6–13" } }
+    ]
+  }]
+}
+{% endschema %}

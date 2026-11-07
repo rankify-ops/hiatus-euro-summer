@@ -1,0 +1,98 @@
+{%- paginate collection.products by section.settings.per_page -%}
+<div class="wrap">
+  <nav class="crumbs crumbs-top" aria-label="Breadcrumb"><a href="{{ routes.root_url }}">Home</a> / <a href="{{ routes.all_products_collection_url }}">Shop</a>{% if collection.handle != 'all' %} / <span aria-current="page">{{ collection.title }}</span>{% endif %}</nav>
+  <section class="coll-head">
+    <h1 class="display">{{ collection.title }}</h1>
+    <div class="coll-meta">
+      <div class="coll-filter-row"><i class="sw sw-silver"></i><span class="coll-filter-label">Material:</span><span class="coll-filter-val">925 Sterling Silver</span><button type="button" class="info-i coll-info-i" aria-label="What is 925 sterling silver?" aria-expanded="false" data-coll-info="silver">i</button></div>
+    </div>
+    {%- if collection.description != blank -%}<div class="coll-desc">{{ collection.description }}</div>{%- endif -%}
+  </section>
+  <div class="coll-info-modal" id="collInfoSilver" hidden>
+    <div class="assure-modal-box glass">
+      <button type="button" class="assure-modal-close coll-info-close" aria-label="Close">&times;</button>
+      <div class="assure-modal-icon"><i class="sw sw-silver" style="width:32px;height:32px;margin:0 auto"></i></div>
+      <h3>925 Sterling Silver</h3>
+      <p>{{ section.settings.info_925 | default: 'An alloy of 92.5% pure silver and 7.5% copper, prized for its brilliant lustre and durability. Every Hiatus piece is stamped 925 to guarantee authenticity.' }}</p>
+    </div>
+  </div>
+  <div class="toolbar-wrap">
+    <div class="toolbar glass-soft">
+      <button type="button" class="tb-btn" id="filterBtn"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><line x1="2" y1="4" x2="14" y2="4"/><line x1="4" y1="8" x2="12" y2="8"/><line x1="6" y1="12" x2="10" y2="12"/></svg><span>Filter</span></button>
+      <button type="button" class="tb-btn" id="sortBtn"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"><path d="M4 2v12M4 14l-2-2M4 14l2-2M12 14V2M12 2l-2 2M12 2l2 2"/></svg><span>Sort</span></button>
+    </div>
+  <div class="fp-panel" id="filterPanel" hidden>
+    <div class="fp-panel-inner glass">
+      <div class="fp-panel-head"><h3>Filter</h3><button type="button" class="fp-panel-close" aria-label="Close">&times;</button></div>
+      <div class="fp-panel-body">
+        {%- for filter in collection.filters -%}
+          <div class="fp-group">
+            <h4 class="fp-group-title">{{ filter.label }}</h4>
+            {%- if filter.type == 'list' -%}
+              <div class="fp-options">
+                {%- for val in filter.values -%}
+                  <a href="{{ val.url }}" class="fp-opt{% if val.active %} fp-opt--active{% endif %}{% if val.count == 0 %} fp-opt--empty{% endif %}">{{ val.label }}<span class="fp-ct">{{ val.count }}</span></a>
+                {%- endfor -%}
+              </div>
+            {%- elsif filter.type == 'price_range' -%}
+              <div class="fp-price-range">
+                <input type="number" name="{{ filter.min_value.param_name }}" value="{{ filter.min_value.value }}" min="0" placeholder="Min" class="fp-price-input" data-filter-price>
+                <span class="fp-price-sep">&ndash;</span>
+                <input type="number" name="{{ filter.max_value.param_name }}" value="{{ filter.max_value.value }}" placeholder="Max" class="fp-price-input" data-filter-price>
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endfor -%}
+        {%- if collection.filters == empty -%}<p class="fp-empty">No filters available.</p>{%- endif -%}
+      </div>
+      <div class="fp-panel-foot">
+        <a href="{{ collection.url }}" class="fp-clear">Clear all</a>
+      </div>
+    </div>
+  </div>
+  <div class="fp-panel" id="sortPanel" hidden>
+    <div class="fp-panel-inner glass">
+      <div class="fp-panel-head"><h3>Sort</h3><button type="button" class="fp-panel-close" aria-label="Close">&times;</button></div>
+      <div class="fp-panel-body">
+        <div class="fp-options">
+          {%- assign sort_by = collection.sort_by | default: collection.default_sort_by -%}
+          {%- for option in collection.sort_options -%}
+            <button type="button" class="fp-opt{% if option.value == sort_by %} fp-opt--active{% endif %}" data-sort-val="{{ option.value }}">{{ option.name }}</button>
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </div>
+  </div>
+  <div class="coll-grid" id="collGrid">
+    {%- for product in collection.products -%}
+      {% render 'product-card', product: product %}
+    {%- else -%}
+      <p class="lede" style="padding:30px">Nothing here yet.</p>
+    {%- endfor -%}
+  </div>
+  {%- if paginate.pages > 1 -%}
+    <nav class="pagination" aria-label="Pagination">
+      {%- for part in paginate.parts -%}
+        {%- if part.is_link -%}<a href="{{ part.url }}">{{ part.title }}</a>{%- elsif part.title == paginate.current_page -%}<span class="current" aria-current="page">{{ part.title }}</span>{%- else -%}<span>{{ part.title }}</span>{%- endif -%}
+      {%- endfor -%}
+    </nav>
+  {%- endif -%}
+  <div style="height:84px"></div>
+</div>
+{%- endpaginate -%}
+
+{% schema %}
+{
+  "name": "Collection",
+  "settings": [
+    { "type": "range", "id": "per_page", "label": "Products per page", "min": 8, "max": 48, "step": 4, "default": 24 },
+    { "type": "richtext", "id": "info_925", "label": "925 silver info text" }
+  ],
+  "blocks": [
+    { "type": "pill", "name": "Filter pill", "settings": [
+      { "type": "collection", "id": "collection", "label": "Collection" },
+      { "type": "text", "id": "label", "label": "Label" } ] }
+  ]
+}
+{% endschema %}

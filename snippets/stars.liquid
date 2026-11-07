@@ -1,0 +1,11 @@
+{%- liquid
+  assign _count = product.metafields.reviews.rating_count.value | default: 0
+  assign _rating = product.metafields.reviews.rating.value.rating | default: 0
+-%}
+{%- if _count > 0 -%}
+  {%- if style == 'pdp' -%}
+    <a class="pdp-stars" href="#reviews" data-toreviews><span class="stars"><span>{% for i in (1..5) %}{% render 'icon', name: 'star' %}{% endfor %}</span></span><b>{{ _rating | round: 1 }}</b><u>{{ _count }} review{% if _count != 1 %}s{% endif %}</u></a>
+  {%- else -%}
+    <div class="stars"><span>{% for i in (1..5) %}{% render 'icon', name: 'star' %}{% endfor %}</span>({{ _count }})</div>
+  {%- endif -%}
+{%- endif -%}

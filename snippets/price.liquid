@@ -1,0 +1,19 @@
+{%- comment -%} Price with compare-at (sale). params: product, variant (optional), plain (no AUD) {%- endcomment -%}
+{%- liquid
+  assign _v = variant | default: product.selected_or_first_available_variant
+  assign _p = _v.price
+  assign _c = _v.compare_at_price
+  if use_min and product.price_varies
+    assign _p = product.price_min
+    assign _c = product.compare_at_price_min
+  endif
+-%}
+{%- if _p == 0 -%}Free{%- else -%}
+  {%- if _c > _p -%}<span class="sale-now">{{ _p | money }}</span><s>{{ _c | money }}</s>{%- else -%}{{ _p | money }}{%- endif -%}
+  {%- unless plain %} {{ cart.currency.iso_code }}{%- endunless -%}
+  {%- if _c > _p -%}
+    {%- assign _save = _c | minus: _p -%}
+    {%- assign _pct = _save | times: 100 | divided_by: _c -%}
+    <span class="sale-badges"><span class="sale-badge">Save {{ _save | money }}</span><span class="sale-badge">{{ _pct }}% OFF</span></span>
+  {%- endif -%}
+{%- endif -%}

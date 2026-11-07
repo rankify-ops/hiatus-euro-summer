@@ -1,0 +1,75 @@
+{%- liquid
+  capture cat
+    render 'product-cat', product: product
+  endcapture
+-%}
+{%- if cat != 'extras' -%}
+<div class="wrap">
+  <section class="pdp-sec faq-wrap faq-ed">
+    <div class="faq-l"><span class="eyebrow">FAQs</span><h2 class="display">{{ section.settings.heading }} <em>{{ section.settings.heading_em }}</em></h2><p class="lede" style="margin-top:12px">{{ section.settings.sub }}</p></div>
+    <div class="faq">
+      {%- if section.blocks.size > 0 -%}
+        {%- for block in section.blocks -%}
+          <details {{ block.shopify_attributes }}><summary><span class="fq-n"></span><span class="fq-q">{{ block.settings.q }}</span><i class="fq-pl" aria-hidden="true"></i></summary><p>{{ block.settings.a }}</p></details>
+        {%- endfor -%}
+      {%- else -%}
+        <details><summary><span class="fq-n"></span><span class="fq-q">Will it turn my skin green?</span><i class="fq-pl" aria-hidden="true"></i></summary><p>No. Every piece is premium 925 sterling silver, stamped 925. A soft, dry cloth after wear keeps it at its best.</p></details>
+        {%- case cat -%}
+          {%- when 'rings' -%}
+        <details><summary><span class="fq-n"></span><span class="fq-q">Can I live in it?</span><i class="fq-pl" aria-hidden="true"></i></summary><p>It's made for it. After the ocean or the pool, rinse in fresh water and dry it off.</p></details>
+            {%- comment -%} PLACEHOLDER (James, 4 Nov 2026): new ring-detail FAQ goes here — artistic copy on the Unearth detail, craftsmanship and how no two rings are the same. Copy to come from Bo. {%- endcomment -%}
+        <details><summary><span class="fq-n"></span><span class="fq-q">What if it doesn't fit?</span><i class="fq-pl" aria-hidden="true"></i></summary><p>Our Ring Size Guarantee gives you one size exchange per ring, requested within 14 days of delivery. The ring must be unworn and in its original packaging. You post it back to us, and we send your new size by express post within Australia. It applies to full-price and sale rings. Unsure of your size? Add a free ring sizer to your order.</p></details>
+          {%- when 'bracelets' -%}
+        <details><summary><span class="fq-n"></span><span class="fq-q">Can I live in it?</span><i class="fq-pl" aria-hidden="true"></i></summary><p>It's made for it. After the ocean or the pool, rinse in fresh water and dry it off.</p></details>
+        <details><summary><span class="fq-n"></span><span class="fq-q">How do I find my size?</span><i class="fq-pl" aria-hidden="true"></i></summary><p>Measure your wrist snugly and add about 2cm. Medium is 7.5 inches; choose Large, 8 inches, for a looser fit.</p></details>
+          {%- else -%}
+        <details><summary><span class="fq-n"></span><span class="fq-q">Can I wear it in the ocean?</span><i class="fq-pl" aria-hidden="true"></i></summary><p>Yes. Rinse it in fresh water after salt water or sunscreen and dry it off.</p></details>
+        <details><summary><span class="fq-n"></span><span class="fq-q">How does the chain sit?</span><i class="fq-pl" aria-hidden="true"></i></summary><p>The silver wheat chain adjusts to three lengths: 45cm, 55cm or 61cm.</p></details>
+        {%- endcase -%}
+        <details><summary><span class="fq-n"></span><span class="fq-q">What does the lifetime warranty cover?</span><i class="fq-pl" aria-hidden="true"></i></summary><p>Every Hiatus sterling silver piece carries our Lifetime Warranty against defects in materials and workmanship, for as long as you own it. If a covered defect appears, we'll repair or replace it. It doesn't cover accidental damage, everyday wear, natural tarnishing, loss or theft. <a href="/pages/lifetime-warranty">Full terms</a>.</p></details>
+        <details><summary><span class="fq-n"></span><span class="fq-q">When will it reach me?</span><i class="fq-pl" aria-hidden="true"></i></summary><p>In-stock orders are dispatched within 5–7 business days of payment. Express shipping is free on Australian orders over $149 and usually arrives 1–4 business days after dispatch. <a href="/pages/shipping-delivery">Shipping details</a>.</p></details>
+        <details><summary><span class="fq-n"></span><span class="fq-q">Changed your mind?</span><i class="fq-pl" aria-hidden="true"></i></summary><p>Full-price pieces can be returned unworn, in their original packaging, within 30 days of delivery for store credit. We don't offer refunds for change of mind, and sale pieces aren't eligible for change-of-mind returns. None of this affects your rights under the Australian Consumer Law. <a href="/policies/refund-policy">Returns policy</a>.</p></details>
+        <details><summary><span class="fq-n"></span><span class="fq-q">Buying for someone else?</span><i class="fq-pl" aria-hidden="true"></i></summary><p>Gift cards are available from $50, so they can choose their own piece.</p></details>
+      {%- endif -%}
+    </div>
+  </section>
+</div>
+{%- endif -%}
+
+<style>
+/* FAQ editorial (pt546u) */
+.faq-ed{grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:64px}
+@media (min-width:821px){.faq-ed .faq-l{position:sticky;top:calc(var(--ab,32px) + 120px)}}
+.faq-ed .faq{counter-reset:fq;background:none!important;border:0!important;box-shadow:none!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;border-radius:0;padding:0}
+.faq-ed .faq details{border-top:1px solid var(--line)!important;counter-increment:fq}
+.faq-ed .faq details:last-of-type{border-bottom:1px solid var(--line)!important}
+.faq-ed .faq summary{display:grid;grid-template-columns:44px 1fr 24px;gap:12px;align-items:baseline;padding:22px 0;font-weight:400}
+.faq-ed .fq-n::before{content:counter(fq,decimal-leading-zero);font-family:var(--f-body);font-size:11px;font-weight:500;letter-spacing:.2em;color:var(--stone-mute)}
+.faq-ed .fq-q{font-family:var(--f-display);font-size:25px;line-height:1.15}
+.faq-ed details[open] .fq-q{font-style:italic}
+.faq-ed .fq-pl{font-style:normal;text-align:right;color:var(--stone-mute)}
+.faq-ed .fq-pl::before{content:"+";font:300 22px/1 var(--f-body)}
+.faq-ed details[open] .fq-pl::before{content:"\2013"}
+.faq-ed .faq p{margin:-8px 0 22px 56px;font-size:14.5px;line-height:1.65}
+@media (max-width:820px){.faq-ed{grid-template-columns:1fr;gap:24px}.faq-ed .fq-q{font-size:21px}.faq-ed .faq summary{grid-template-columns:34px 1fr 20px}.faq-ed .faq p{margin-left:46px}}
+</style>
+
+{% schema %}
+{
+  "name": "Product FAQs",
+  "max_blocks": 10,
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Questions," },
+    { "type": "text", "id": "heading_em", "label": "Heading italic word", "default": "answered." },
+    { "type": "text", "id": "sub", "label": "Text", "default": "Anything else? Write to us at hello@hiatuscollection.com.au." },
+    { "type": "paragraph", "content": "With no questions added, FAQs fill in automatically for rings, bracelets and necklaces." }
+  ],
+  "blocks": [
+    { "type": "faq", "name": "Question", "settings": [
+      { "type": "text", "id": "q", "label": "Question" },
+      { "type": "textarea", "id": "a", "label": "Answer" } ] }
+  ],
+  "presets": [{ "name": "Product FAQs" }],
+  "enabled_on": { "templates": ["product"] }
+}
+{% endschema %}

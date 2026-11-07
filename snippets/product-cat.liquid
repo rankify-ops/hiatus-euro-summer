@@ -1,0 +1,18 @@
+{%- comment -%} Outputs rings | bracelets | necklaces | extras for a product, from its type, then tags, then handle {%- endcomment -%}
+{%- liquid
+  assign _t = product.type | downcase
+  assign _g = product.tags | join: ' ' | downcase
+  assign _h = product.handle | downcase
+  assign _all = _t | append: ' ' | append: _g | append: ' ' | append: _h
+  if product.gift_card? or _h contains 'sizer'
+    echo 'extras'
+  elsif _all contains 'ring' or _all contains 'signet' or _all contains 'stacker'
+    echo 'rings'
+  elsif _all contains 'bracelet' or _all contains 'cuff' or _all contains 'pearl'
+    echo 'bracelets'
+  elsif _all contains 'necklace' or _all contains 'pendant' or _all contains 'chain'
+    echo 'necklaces'
+  else
+    echo 'extras'
+  endif
+-%}

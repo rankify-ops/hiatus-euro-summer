@@ -1,0 +1,236 @@
+{%- liquid
+  capture cat
+    render 'product-cat', product: product
+  endcapture
+  assign is_ring = false
+  if cat == 'rings'
+    assign is_ring = true
+  endif
+  assign cur = product.selected_or_first_available_variant
+  assign sized = false
+  if product.has_only_default_variant == false and product.variants.size > 1
+    assign sized = true
+  endif
+  assign title_l = product.title | downcase
+  assign handle_l = product.handle | downcase
+  assign unearth = false
+  if handle_l contains 'unearth' or handle_l contains 'creators' or title_l contains 'unearth'
+    assign unearth = true
+  endif
+  case cat
+    when 'rings'
+      assign benefit = section.settings.benefit_rings
+    when 'bracelets'
+      assign benefit = section.settings.benefit_bracelets
+    when 'necklaces'
+      assign benefit = section.settings.benefit_necklaces
+    else
+      assign benefit = ''
+  endcase
+  # Material: pulled from the product's Shopify taxonomy metafield (jewelry-material), falling back to the live-site wording.
+  # Gold is hidden until stock arrives: it only shows when Theme settings > Gold (hidden) > show_gold is on.
+  assign material = '925 Sterling Silver'
+  assign material_swatch = 'sw-silver'
+  assign material_is_gold = false
+  assign mat_obj = product.metafields.shopify['jewelry-material'].value
+  if mat_obj != blank
+    assign mat_label = mat_obj.first.label | default: mat_obj.first.name
+    assign mat_l = mat_label | downcase
+    if mat_l contains 'gold' or mat_l contains 'plat'
+      if settings.show_gold
+        assign material = mat_label
+        assign material_swatch = 'sw-gold'
+        assign material_is_gold = true
+      endif
+    elsif mat_l contains 'silver'
+      if mat_l contains '925'
+        assign material = mat_label
+      endif
+    endif
+  endif
+  assign size_label = 'Size'
+  if is_ring
+    assign size_label = 'Size US'
+  elsif product.gift_card?
+    assign size_label = 'Amount'
+  endif
+-%}
+<div class="wrap" data-product-section data-handle="{{ product.handle }}">
+  <nav class="crumbs crumbs-top" aria-label="Breadcrumb"><a href="{{ routes.root_url }}">Home</a> / {% if collection %}<a href="{{ collection.url }}">{{ collection.title }}</a>{% else %}<a href="{{ routes.all_products_collection_url }}">Shop</a>{% endif %} / <span aria-current="page">{%- render 'title-fmt', title: product.title -%}</span></nav>
+  <div class="pdp-mob-head">
+    {% render 'stars', product: product, style: 'pdp' %}
+    <h1 class="display">{%- render 'title-fmt', title: product.title -%}</h1>
+    {%- if benefit != blank -%}<p class="pdp-benefit">{{ benefit }}</p>{%- endif -%}
+  </div>
+  <section class="pdp">
+    <div class="pdp-media" aria-label="{{ product.title | escape }} media">
+      {%- for media in product.media -%}
+        {%- if media.media_type == 'image' -%}
+          <figure class="pm{% if forloop.first %} cut{% endif %}">
+            {{ media | image_url: width: 1600 | image_tag: alt: media.alt, loading: 'eager', sizes: '(min-width: 821px) 60vw, 100vw', widths: '600, 900, 1200, 1600' }}
+          </figure>
+        {%- elsif media.media_type == 'video' -%}
+          <figure class="pm pm-vid{% if forloop.first %} cut{% endif %}">
+            {{ media | media_tag: autoplay: true, loop: true, muted: true, controls: false, preload: 'auto' }}
+          </figure>
+        {%- elsif media.media_type == 'external_video' -%}
+          <figure class="pm pm-vid{% if forloop.first %} cut{% endif %}">
+            {{ media | external_video_url: autoplay: false, loop: false | external_video_tag }}
+          </figure>
+        {%- endif -%}
+      {%- else -%}
+        <figure class="pm cut">{{ 'product-1' | placeholder_svg_tag }}</figure>
+      {%- endfor -%}
+    </div>
+    {%- if product.media.size > 1 -%}
+      <div class="pm-thumbs" aria-label="Media thumbnails">{%- for media in product.media -%}{%- if media.media_type == 'image' or media.media_type == 'video' or media.media_type == 'external_video' -%}<button type="button" class="pm-th{% if forloop.first %} on{% endif %}" data-slide="{{ forloop.index0 }}">{{ media.preview_image | image_url: width: 120 | image_tag: alt: media.alt, loading: 'lazy', widths: '120' }}</button>{%- endif -%}{%- endfor -%}</div>
+    {%- endif -%}
+    <div class="buy glass">
+      <div class="pdp-desk-head">
+        <h1 class="display" style="margin-top:4px">{%- render 'title-fmt', title: product.title -%}</h1>
+        {% render 'stars', product: product, style: 'pdp' %}
+      </div>
+      {%- if benefit != blank -%}<p class="pdp-benefit pdp-desk-head">{{ benefit }}</p>{%- endif -%}
+      <div class="row">
+        <span class="price" id="pdpPrice">{% render 'price', product: product, variant: cur %}</span>
+        <button type="button" class="wish-pdp wish-pdp-top" data-wish="{{ product.handle }}">{% render 'icon', name: 'ribbon' %}</button>
+        {%- if cur.price > 0 -%}
+          <div class="bnpl-row">or 4 x <b class="price" id="pdpInst">{{ cur.price | divided_by: 4 | money }}</b> with <img class="bnpl-logo" src="{{ 'afterpay-logo.webp' | asset_url }}" alt="Afterpay" loading="lazy"> or <img class="bnpl-logo bnpl-pp" src="{{ 'paypal-logo.webp' | asset_url }}" alt="PayPal" loading="lazy"></div>
+        {%- endif -%}
+      </div>
+      {%- form 'product', product, id: 'pdpForm', novalidate: 'novalidate', data-product-form: '' -%}
+        <input type="hidden" name="id" id="pdpVariant" value="{% if sized %}{% else %}{{ cur.id }}{% endif %}">
+        <div class="opts">
+          {%- if cat != 'extras' -%}
+            <div class="opt-row"><span class="ol">Material:</span><span class="ov"><img class="sw-img" src="{{ 'mat-silver.webp' | asset_url }}" alt="{{ material }}" width="32" height="32" loading="lazy">{{ material }}<button type="button" class="info-i" aria-label="What is 925 sterling silver?" aria-expanded="false" aria-controls="info-silver">i</button></span><div class="info-note" id="info-silver" hidden><b>What is 925 sterling silver?</b> {{ section.settings.info_925 }}</div></div>
+          {%- endif -%}
+          {%- if unearth -%}
+            <div class="opt-row"><span class="ol">Finish:</span><span class="ov"><img class="sw-img" src="{{ 'ico-finish.webp' | asset_url }}" alt="Unearth finish" width="32" height="32" loading="lazy">Unearth, premium finish<button type="button" class="info-i" aria-label="About the Unearth finish" aria-expanded="false" aria-controls="info-unearth">i</button></span><div class="info-note" id="info-unearth" hidden><b>The Unearth finish.</b> {{ section.settings.info_unearth }}</div></div>
+          {%- endif -%}
+          {%- if sized -%}
+            <div class="opt-row opt-size">
+              <div class="opt-size-head"><span class="ol">{{ size_label }}:</span><span class="ov" id="sizeVal"><img class="sw-img" src="{{ 'ico-size.webp' | asset_url }}" alt="Size" width="32" height="32" loading="lazy">No Size Selected</span>{% if is_ring %}<button type="button" class="size-guide" data-sizeguide>Size guide</button>{% endif %}</div>
+              <div class="sizes{% if product.variants.size <= 2 %} wide{% endif %}">
+                {%- for v in product.variants -%}
+                  {%- liquid
+                    assign pre = false
+                    if v.available and v.inventory_management != blank and v.inventory_quantity <= 0
+                      assign pre = true
+                    endif
+                  -%}
+                  <button type="button" class="size{% unless v.available %} sold-out{% endunless %}" data-variant="{{ v.id }}" data-price="{{ v.price }}" data-compare="{{ v.compare_at_price | default: 0 }}" data-label="{% render 'size-label', value: v.title, mode: 'plain' %}"{% if pre %} data-pre="1"{% endif %} aria-pressed="false"{% unless v.available %} disabled{% endunless %}>{% render 'size-label', value: v.title %}{% if pre %}<small>Pre-order</small>{% endif %}</button>
+                {%- endfor -%}
+              </div>
+            </div>
+          {%- elsif product.has_only_default_variant == false -%}
+            <div class="opt-row"><span class="ol">{{ size_label }}:</span><span class="ov"><img class="sw-img" src="{{ 'ico-size.webp' | asset_url }}" alt="Size" width="32" height="32" loading="lazy">{% render 'size-label', value: cur.title, mode: 'plain' %}</span></div>
+          {%- endif -%}
+        </div>
+        <div class="need" id="need" role="alert"></div>
+        <div class="atc">
+          <input type="hidden" name="quantity" id="pdpQty" value="1">
+          <button class="btn btn-primary btn-block" type="submit" id="addBtn"{% unless product.available %} disabled{% endunless %} data-price-ref>
+            {%- if product.available -%}
+              <span class="atc-top">ADD TO CART &bull; {%- if cur.compare_at_price > cur.price -%}<s class="atc-was">{{ cur.compare_at_price | money }}</s> {{ cur.price | money }}{% else %}{{ cur.price | money }}{% endif %} {{ cart.currency.iso_code }}</span>
+              <span class="atc-sub" id="addSub" hidden></span>
+            {%- else -%}Sold out{%- endif -%}
+          </button>
+        </div>
+      {%- endform -%}
+      <button type="button" class="wish-pdp wish-pdp-bottom" data-wish="{{ product.handle }}">{% render 'icon', name: 'ribbon' %}<span>Save to wishlist</span></button>
+
+      <div class="pay-block">
+        <div class="pay-row">{%- for type in shop.enabled_payment_types -%}<span class="pay">{{ type | payment_type_svg_tag }}</span>{%- endfor -%}</div>
+        <div class="pay-note">{% render 'icon', name: 'lock' %}<span>Secure, encrypted checkout</span></div>
+      </div>
+
+      {%- if cat != 'extras' -%}
+        <div class="assure">
+          <button type="button" class="assure-card" data-assure="silver"><img src="{{ 'trust-silver.webp' | asset_url }}" alt="925 Sterling Silver" width="48" height="48" loading="lazy"><span><b>925 Sterling Silver</b></span></button>
+          <button type="button" class="assure-card" data-assure="warranty"><img src="{{ 'trust-warranty.webp' | asset_url }}" alt="Lifetime warranty" width="48" height="48" loading="lazy"><span><b>Lifetime warranty</b></span></button>
+          <button type="button" class="assure-card" data-assure="shipping"><img src="{{ 'trust-shipping.webp' | asset_url }}" alt="Free express shipping" width="48" height="48" loading="lazy"><span><b>Free express shipping</b></span></button>
+          <button type="button" class="assure-card" data-assure="exchanges"><img src="{{ 'trust-exchanges.webp' | asset_url }}" alt="Exchanges within 14 days" width="48" height="48" loading="lazy"><span><b>Exchanges within 14 days</b></span></button>
+        </div>
+        <div class="assure-modal" id="assureModal" hidden>
+          <div class="assure-modal-box glass">
+            <button type="button" class="assure-modal-close" aria-label="Close">&times;</button>
+            <div class="assure-modal-icon" id="assureIcon"></div>
+            <h3 id="assureTitle"></h3>
+            <p id="assureBody"></p>
+          </div>
+        </div>
+      {%- endif -%}
+
+      {%- if cat != 'extras' -%}
+        {%- if is_ring and settings.sizer_product != blank -%}
+          <div class="offer">
+            <div class="offer-ic">{% render 'icon', name: 'ring' %}</div>
+            <div><b>Free ring sizer with your order</b><span>Not sure of your size? Add a sizer to your bag for $0 and measure at home.</span></div>
+            <button type="button" class="offer-btn" data-addvariant="{{ settings.sizer_product.selected_or_first_available_variant.id }}" data-title="{{ settings.sizer_product.title | escape }}">Add free</button>
+          </div>
+        {%- elsif is_ring == false and settings.giftcard_product != blank -%}
+          <div class="offer">
+            <div class="offer-ic">{% render 'icon', name: 'shield' %}</div>
+            <div><b>Gift cards from $50</b><span>Not sure what they'd pick? Let them choose their own piece.</span></div>
+            <a class="offer-btn" href="{{ settings.giftcard_product.url }}">Gift card</a>
+          </div>
+        {%- endif -%}
+      {%- endif -%}
+
+      <div>
+        <details open><summary>Description</summary><div class="desc">{{ product.description }}</div></details>
+        <details><summary>Details</summary><ul>
+          {%- if cat == 'extras' -%}
+            <li>{{ product.type | default: product.title }}</li>
+          {%- else -%}
+            <li>Premium {{ material }}</li>
+            {%- if is_ring -%}<li>US sizes {{ product.variants.first.title | split: ' ' | first }} – {{ product.variants.last.title | split: ' ' | first }}</li>{%- endif -%}
+            {%- if is_ring -%}{%- comment -%} PLACEHOLDER (James, 4 Nov 2026): ring detail line (Unearth detail, craftsmanship, no two rings alike) goes here. Copy to come from Bo. {%- endcomment -%}{%- endif -%}
+          {%- endif -%}
+        </ul></details>
+        {%- if cat != 'extras' -%}
+          <details><summary>Care</summary><p>{% if material_is_gold %}{{ settings.gold_care }}{% else %}{{ section.settings.care }}{% endif %}</p></details>
+        {%- endif -%}
+        <details><summary>Delivery &amp; exchanges</summary><p>{{ section.settings.delivery }}</p></details>
+      </div>
+    </div>
+  </section>
+</div>
+<div class="mobile-buy">
+  <div class="n"><b>{%- render 'title-fmt', title: product.title -%}</b></div>
+  <button class="btn btn-primary" type="button" id="addBtn2"{% unless product.available %} disabled{% endunless %}>{% if product.available %}Add to cart<span class="mb-price-sep"> · </span><span class="mb-price">{% render 'price', product: product, variant: cur, plain: true %}</span>{% else %}Sold out{% endif %}</button>
+</div>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": {{ product.title | json }},
+  "url": {{ request.origin | append: product.url | json }},
+  {%- if product.featured_image -%}"image": [{{ product.featured_image | image_url: width: 1200 | prepend: 'https:' | json }}],{%- endif -%}
+  "description": {{ product.description | strip_html | json }},
+  "brand": { "@type": "Brand", "name": {{ product.vendor | json }} },
+  "offers": [
+    {%- for v in product.variants -%}
+    { "@type": "Offer", "sku": {{ v.sku | json }}, "availability": "http://schema.org/{% if v.available %}InStock{% else %}OutOfStock{% endif %}", "price": {{ v.price | divided_by: 100.00 | json }}, "priceCurrency": {{ cart.currency.iso_code | json }}, "url": {{ request.origin | append: v.url | json }} }{% unless forloop.last %},{% endunless %}
+    {%- endfor -%}
+  ]
+}
+</script>
+
+{% schema %}
+{
+  "name": "Product",
+  "settings": [
+    { "type": "header", "content": "One-line benefit under the title" },
+    { "type": "text", "id": "benefit_rings", "label": "Rings", "default": "Silver that wears in, not out." },
+    { "type": "text", "id": "benefit_bracelets", "label": "Bracelets", "default": "Ready for every occasion." },
+    { "type": "text", "id": "benefit_necklaces", "label": "Necklaces", "default": "A reminder to make the most of every day off the clock." },
+    { "type": "header", "content": "Info popups" },
+    { "type": "textarea", "id": "info_925", "label": "925 sterling silver", "default": "It's 92.5% pure silver, mixed with 7.5% copper for strength. Every piece is stamped 925." },
+    { "type": "textarea", "id": "info_unearth", "label": "Unearth finish", "default": "A hand-applied oxidisation that darkens the recesses and leaves the raised surfaces bright, so the detail stands out. The finish wears in naturally the more you wear it." },
+    { "type": "header", "content": "Accordions" },
+    { "type": "textarea", "id": "care", "label": "Care", "default": "The Unearth finish is meant to mark and wear in, so wear it hard. Wipe with a dry cloth and store it in the Hiatus pouch. Skip silver dips, which strip the dark finish." },
+    { "type": "textarea", "id": "delivery", "label": "Delivery & exchanges", "default": "In-stock orders are dispatched within 5–7 business days. Free express shipping on Australian orders over $149. Rings include our Ring Size Guarantee: one size exchange within 30 days of delivery. Full-price pieces can be returned unworn within 30 days for store credit; sale pieces aren't eligible for change-of-mind returns. Lifetime warranty against defects in materials and workmanship." }
+  ]
+}
+{% endschema %}

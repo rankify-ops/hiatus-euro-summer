@@ -1,0 +1,6 @@
+{%- liquid
+  assign _t = title | replace: ' (Silver)', '' | replace: ' (SILVER)', '' | replace: ' (silver)', '' | replace: 'Stacker Ring Set', 'Stacker Set' | replace: 'STACKER RING SET', 'STACKER SET'
+  if card
+    assign _t = _t | replace: ' Pendant', '' | replace: ' PENDANT', ''
+  endif
+-%}{{ _t }}

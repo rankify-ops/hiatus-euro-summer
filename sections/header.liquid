@@ -1,0 +1,108 @@
+{%- if section.settings.topbar_on and section.settings.topbar_text != blank -%}
+  {%- assign tb_items = section.settings.topbar_text | split: ' · ' -%}
+  <div class="topbar" role="region" aria-label="Store benefits">
+    <div class="wrap topbar-in">
+      <p class="topbar-full">{{ section.settings.topbar_text }}</p>
+      <p class="topbar-rot" aria-hidden="true">{%- for it in tb_items -%}<span style="--i:{{ forloop.index0 }};--n:{{ tb_items.size }}">{{ it }}</span>{%- endfor -%}</p>
+    </div>
+  </div>
+{%- endif -%}
+{% render 'liquid-glass' %}
+<div class="hdr-shell">
+  <div class="wrap">
+    <header class="hdr glass liquid-glass">
+      <div class="hdr-menu">
+        <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-label="Open menu" aria-expanded="false" aria-controls="mobileMenu">{% render 'icon', name: 'menu' %}</button>
+        <button type="button" class="icon-btn m-only" data-search aria-label="Search">{% render 'icon', name: 'search' %}</button>
+        <nav id="nav" aria-label="Main">
+          {%- assign menu = linklists[section.settings.menu] -%}
+          {%- if menu.links.size > 0 -%}
+            {%- if section.settings.promo_label != blank -%}
+              <a class="nav-promo" href="{{ section.settings.promo_link | default: '/pages/black-friday' }}">{{ section.settings.promo_label }}</a>
+            {%- endif -%}
+            {%- for link in menu.links -%}
+              <a href="{{ link.url }}"{% if link.current or link.child_active %} aria-current="page"{% endif %}>{{ link.title }}</a>
+            {%- endfor -%}
+          {%- else -%}
+            <a href="{{ routes.all_products_collection_url }}">Shop all</a>
+          {%- endif -%}
+        </nav>
+      </div>
+      <a href="{{ routes.root_url }}" class="logo" aria-label="{{ shop.name | escape }} home">
+        {%- if section.settings.logo != blank -%}
+          {{ section.settings.logo | image_url: height: 120 | image_tag: alt: shop.name }}
+        {%- else -%}
+          <img src="{{ 'hiatus-flag-h.png' | asset_url }}" alt="{{ shop.name | escape }}" width="67" height="70" class="logo-wordmark logo-h">
+        {%- endif -%}
+      </a>
+      {%- if settings.weather_on -%}
+        <div class="wx" id="wx" aria-label="{{ settings.weather_place | escape }} local time and temperature"><span class="wx-place">{{ settings.weather_place }},</span> <span id="wxTime">--:--</span> <span id="wxTemp"></span></div>
+      {%- endif -%}
+      <div class="hdr-tools">
+        <form class="srch" id="srch" role="search" action="{{ routes.search_url }}" method="get" autocomplete="off">
+          <input type="hidden" name="type" value="product">
+          <svg class="srch-ic" width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path stroke-width="1.2" stroke="currentColor" d="M1.333 7.333a6 6 0 1 0 12 0 6 6 0 0 0-12 0ZM11.575 11.576l3.09 3.09"/></svg>
+          <input id="srchIn" type="search" name="q" placeholder="{{ section.settings.search_placeholder | escape }}" aria-label="Search">
+          <button type="button" class="srch-x" id="srchClose" aria-label="Close search"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden="true"><path stroke-width="1.3" stroke="currentColor" d="M3 3l10 10M13 3 3 13"/></svg></button>
+          <div class="srch-res" id="srchRes" hidden></div>
+        </form>
+        <button type="button" class="icon-btn d-only" id="searchBtnD" data-search aria-label="Search">{% render 'icon', name: 'search' %}</button>
+        {%- if shop.customer_accounts_enabled -%}
+          <a class="icon-btn d-only" href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" aria-label="Account">{% render 'icon', name: 'account' %}</a>
+        {%- endif -%}
+        <button type="button" class="icon-btn d-only" data-wishopen aria-label="Open wishlist">{% render 'icon', name: 'ribbon' %}</button>
+        <button type="button" class="icon-btn m-only" data-wishopen aria-label="Open wishlist">{% render 'icon', name: 'ribbon' %}</button>
+        <a class="icon-btn cart" id="cartBtn" href="{{ routes.cart_url }}" aria-label="Open bag">
+          {% render 'icon', name: 'bag' %}
+          <span class="cart-count" id="cartCount"{% if cart.item_count == 0 %} hidden{% endif %}>{{ cart.item_count }}</span>
+        </a>
+      </div>
+    </header>
+  </div>
+</div>
+
+<div class="mob-menu" id="mobileMenu" hidden>
+  <nav class="mob-menu-nav" aria-label="Mobile navigation">
+    {%- assign menu = linklists[section.settings.menu] -%}
+    {%- if menu.links.size > 0 -%}
+      {%- for link in menu.links -%}
+        <a href="{{ link.url }}" class="mob-menu-link"{% if link.current or link.child_active %} aria-current="page"{% endif %}>{{ link.title }}{% if link.links.size > 0 %}<span class="mob-menu-arrow">&rarr;</span>{% endif %}</a>
+      {%- endfor -%}
+    {%- else -%}
+      <a href="{{ routes.all_products_collection_url }}" class="mob-menu-link">Shop all</a>
+    {%- endif -%}
+  </nav>
+  <div class="mob-menu-secondary">
+    {%- assign foot_menu = linklists['footer'] -%}
+    {%- if foot_menu.links.size > 0 -%}
+      {%- for link in foot_menu.links -%}
+        <a href="{{ link.url }}" class="mob-menu-sec-link">{{ link.title }}</a>
+      {%- endfor -%}
+    {%- endif -%}
+  </div>
+  <div class="mob-menu-foot">
+    {%- form 'localization' -%}
+      <button type="button" class="mob-menu-locale">🇦🇺 Australia ({{ localization.country.currency.iso_code }}) ▾</button>
+    {%- endform -%}
+    {%- if shop.customer_accounts_enabled -%}
+      <a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" class="mob-menu-account">Account</a>
+    {%- endif -%}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Header",
+  "class": "section-header",
+  "settings": [
+    { "type": "checkbox", "id": "topbar_on", "label": "Show announcement bar", "default": true },
+    { "type": "text", "id": "topbar_text", "label": "Announcement bar text", "info": "Separate points with ' · '. On mobile the points rotate one at a time.", "default": "LIFETIME WARRANTY · 14-DAY SIZE EXCHANGES · FREE EXPRESS SHIPPING OVER $149" },
+    { "type": "image_picker", "id": "logo", "label": "Logo", "info": "Leave empty to use the Hiatus Collection wordmark." },
+    { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" },
+    { "type": "text", "id": "search_placeholder", "label": "Search placeholder", "default": "Search rings, bracelets, necklaces" },
+    { "type": "header", "content": "Promo nav link" },
+    { "type": "text", "id": "promo_label", "label": "Label", "default": "Black Friday" },
+    { "type": "url", "id": "promo_link", "label": "Link" }
+  ]
+}
+{% endschema %}

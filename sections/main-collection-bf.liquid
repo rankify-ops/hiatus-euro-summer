@@ -1,0 +1,113 @@
+{%- paginate collection.products by section.settings.per_page -%}
+<div class="wrap bf-coll">
+  <section class="bf-coll-head">
+    <p class="bf-coll-k">{{ section.settings.eyebrow }}</p>
+    <h1 class="display bf-coll-h">{{ section.settings.heading }}</h1>
+    {%- if section.settings.subline != blank -%}<p class="bf-coll-d">{{ section.settings.subline }}</p>{%- endif -%}
+  </section>
+  <div class="coll-grid" id="collGrid">
+    {%- for product in collection.products -%}
+      {% render 'product-card', product: product %}
+    {%- else -%}
+      <p class="lede" style="padding:30px">Nothing here yet.</p>
+    {%- endfor -%}
+  </div>
+  {%- if paginate.pages > 1 -%}
+    <nav class="pagination" aria-label="Pagination">
+      {%- for part in paginate.parts -%}
+        {%- if part.is_link -%}<a href="{{ part.url }}">{{ part.title }}</a>{%- elsif part.title == paginate.current_page -%}<span class="current" aria-current="page">{{ part.title }}</span>{%- else -%}<span>{{ part.title }}</span>{%- endif -%}
+      {%- endfor -%}
+    </nav>
+  {%- endif -%}
+  <div style="height:84px"></div>
+</div>
+{%- endpaginate -%}
+
+<style>
+/* Black Friday collection only (template collection.black-friday) */
+body:has(.bf-coll),body:has(.bf-coll) .app{background:#0b0a09}
+body:has(.bf-coll) .grain{opacity:.5}
+body:has(.bf-coll) main#view{--stone:#efe8dc;--stone-dim:#cfc6b8;--stone-mute:#9a9081;--ink:#0b0a09;--line:rgba(239,232,220,.14);--glass-edge-soft:rgba(239,232,220,.14);color:#efe8dc;background:#0b0a09}
+body:has(.bf-coll).scrolled .hdr.glass{background:linear-gradient(140deg,rgba(40,36,30,.78),rgba(14,12,10,.86));border-color:rgba(255,255,255,.16);box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 20px 40px -24px rgba(0,0,0,.8)}
+body:has(.bf-coll).scrolled .hdr .logo img{filter:none}
+body:has(.bf-coll).scrolled .hdr nav a,body:has(.bf-coll).scrolled .hdr .icon-btn,body:has(.bf-coll).scrolled .wx{color:#efe8dc}
+body:has(.bf-coll).scrolled .hdr nav a[aria-current="page"],body:has(.bf-coll).scrolled .hdr nav a:hover{background:rgba(255,255,255,.1)}
+body:has(.bf-coll).scrolled .cart-count{background:#efe8dc;color:#0b0a09}
+body:has(.bf-coll).scrolled .srch{background:rgba(255,255,255,.1)}
+body:has(.bf-coll).scrolled .srch input{color:#efe8dc}
+.bf-coll-head{text-align:center;padding:clamp(44px,6vw,96px) 0 clamp(36px,4.5vw,64px)}
+.bf-coll-k{font:500 11px/1 var(--f-body);letter-spacing:.32em;text-transform:uppercase;color:#a3132a;margin:0 0 18px}
+.bf-coll-h{font-family:var(--f-display);font-weight:500;font-size:clamp(44px,5.4vw,96px);line-height:.95;letter-spacing:.04em;text-transform:uppercase;color:#efe8dc}
+.bf-coll-d{font:400 11px/1 var(--f-body);letter-spacing:.28em;text-transform:uppercase;color:#8a7f70;margin:22px 0 0}
+.bf-coll .coll-grid{border-color:rgba(239,232,220,.14)}
+.bf-coll .coll-grid > *{border-color:rgba(239,232,220,.14)!important}
+.bf-coll .card-info,.bf-coll .card-title{color:#efe8dc}
+.bf-coll .card-price{color:#efe8dc!important}
+.bf-coll .card-price s{color:#9a9081;opacity:1}
+.bf-coll .stars,.bf-coll .stars *{color:#efe8dc}
+main#view .bf-coll .card-qa{background:#efe8dc;color:#0b0a09}
+main#view .bf-coll .card-qa:hover{background:#fff;color:#0b0a09}
+.bf-coll .pagination a,.bf-coll .pagination span{color:#efe8dc}
+@media (max-width:820px){.bf-coll-k{font-size:10px;margin-bottom:14px}.bf-coll-d{font-size:9.5px;letter-spacing:.22em}}
+main#view .bf-coll .coll-grid{border:1px solid rgba(239,232,220,.14)!important;box-shadow:none!important;background:#0b0a09!important}
+main#view .bf-coll .coll-grid .card{background:#0b0a09!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important;box-shadow:none!important}
+main#view .bf-coll .card-stage{background:linear-gradient(160deg,#f1ece3,#ddd5c8)}
+.bf-coll .card-price s{color:#a89e8f!important}
+.bf-coll .card-info .stars{color:#cfc6b8}
+/* v2: dark tiles, red sale price, clear header */
+body:has(.bf-coll) main#view{padding-top:0!important}
+.bf-coll-head{padding-top:calc(env(safe-area-inset-top,0px) + var(--ab,32px) + 130px)!important}
+@media (max-width:820px){.bf-coll-head{padding-top:calc(env(safe-area-inset-top,0px) + var(--ab,30px) + 112px)!important}}
+.shopify-design-mode .bf-coll-head{padding-top:calc(var(--ab,32px) + 130px)!important}
+main#view .bf-coll .card-stage,main#view .bf-coll .card-box{background:radial-gradient(120% 90% at 50% 42%,#262320 0%,#151311 55%,#0b0a09 100%)!important}
+main#view .bf-coll .card-media img{mix-blend-mode:normal}
+main#view .bf-coll .card-arrow{color:#efe8dc;background:rgba(255,255,255,.08);border-color:rgba(239,232,220,.18)}
+main#view .bf-coll .card-dots i{background:rgba(239,232,220,.25)}main#view .bf-coll .card-dots i.on{background:#efe8dc}
+main#view .bf-coll .card-qa{background:#0b0a09!important;color:#efe8dc!important;border-top:1px solid rgba(239,232,220,.18)!important;border-bottom:1px solid rgba(239,232,220,.18)!important}
+main#view .bf-coll .card-qa:hover{background:#efe8dc!important;color:#0b0a09!important}
+main#view .bf-coll .card-sizes{background:rgba(11,10,9,.88)!important;border-color:rgba(239,232,220,.14)!important}
+main#view .bf-coll .card-sizes button{color:#efe8dc;border-color:rgba(239,232,220,.12)}
+main#view .bf-coll .card-sizes button small{color:#9a9081}
+main#view .bf-coll .wish,main#view .bf-coll [class*="wish"]{background:rgba(255,255,255,.1);color:#efe8dc}
+.bf-coll .card-price .sale-now{color:#e0283f!important;font-weight:600}
+.bf-coll .card-price s{color:#8a8073!important}
+body:has(.bf-coll) .nav-promo{color:#ff3b4e!important}
+/* v3: midnight silk */
+body:has(.bf-coll),body:has(.bf-coll) .app,body:has(.bf-coll) main#view{background:#060609!important;--ink:#060609}
+body:has(.bf-coll) .app{background:
+  radial-gradient(120% 70% at 18% 8%,rgba(150,160,190,.07),transparent 60%),
+  radial-gradient(90% 60% at 85% 35%,rgba(120,130,165,.05),transparent 65%),
+  linear-gradient(118deg,transparent 30%,rgba(205,212,235,.035) 44%,transparent 52%,transparent 64%,rgba(205,212,235,.025) 74%,transparent 84%),
+  linear-gradient(180deg,#08080c 0%,#050507 55%,#07070b 100%)!important;background-attachment:fixed!important}
+body:has(.bf-coll) main#view{background:transparent!important}
+body:has(.bf-coll) .grain{opacity:.25}
+main#view .bf-coll .coll-grid,main#view .bf-coll .coll-grid .card{background:transparent!important}
+main#view .bf-coll .coll-grid{border:1px solid rgba(220,225,240,.09)!important}
+main#view .bf-coll .coll-grid .card{border-color:rgba(220,225,240,.09)!important}
+main#view .bf-coll .card-stage,main#view .bf-coll .card-box{background:
+  radial-gradient(70% 55% at 50% 45%,rgba(190,198,225,.075),transparent 70%),
+  linear-gradient(135deg,rgba(255,255,255,.018),transparent 45%,rgba(255,255,255,.012) 70%,transparent)!important}
+main#view .bf-coll .card-qa{background:transparent!important;border-color:rgba(220,225,240,.1)!important}
+.bf-coll .card-info{background:transparent!important}
+.bf-coll .bf-coll-k{color:#ff3b4e}
+/* v4: flat deep black, no glow (pt544u) */
+body:has(.bf-coll),body:has(.bf-coll) .app,body:has(.bf-coll) main#view{background:#050507!important;background-image:none!important;--ink:#050507}
+body:has(.bf-coll) .grain{display:none!important}
+body:has(.bf-coll).scrolled .hdr.glass{background:rgba(5,5,7,.92)!important;box-shadow:none!important;border-color:rgba(255,255,255,.08)!important}
+main#view .bf-coll .coll-grid,main#view .bf-coll .coll-grid .card,main#view .bf-coll .card-stage,main#view .bf-coll .card-box,main#view .bf-coll .card-info,main#view .bf-coll .card-qa{background:#050507!important;background-image:none!important;box-shadow:none!important}
+main#view .bf-coll .card-stage::before,main#view .bf-coll .card-stage::after,main#view .bf-coll .card-box::before,main#view .bf-coll .card-box::after{background:none!important;box-shadow:none!important}
+main#view .bf-coll .coll-grid,main#view .bf-coll .coll-grid .card{border-color:rgba(255,255,255,.06)!important}
+main#view .bf-coll .card-title,main#view .bf-coll .card-title a{color:#fff!important}
+</style>
+
+{% schema %}
+{
+  "name": "Black Friday collection",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Black Friday" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Up to 40% off" },
+    { "type": "text", "id": "subline", "label": "Subline", "default": "6–30 November · No code needed" },
+    { "type": "range", "id": "per_page", "label": "Products per page", "min": 8, "max": 48, "step": 4, "default": 24 }
+  ]
+}
+{% endschema %}

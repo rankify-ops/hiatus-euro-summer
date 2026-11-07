@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}" class="no-js">
+<head>
+ {%- capture ecom_header_content -%}{%- render 'ecom_header' -%}{%- endcapture -%}{%- unless ecom_header_content contains 'Liquid error' -%}{{ ecom_header_content }}{%- endunless -%}
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#f2eee7">
+  <link rel="canonical" href="{{ canonical_url }}">
+  {%- if settings.favicon != blank -%}
+    <link rel="icon" type="image/png" href="{{ settings.favicon | image_url: width: 64, height: 64 }}">
+  {%- else -%}
+    <link rel="icon" type="image/png" href="{{ 'h-icon.png' | asset_url }}">
+  {%- endif -%}
+  <title>{{ page_title }}{% if current_tags %} &ndash; {{ current_tags | join: ', ' }}{% endif %}{% if current_page != 1 %} &ndash; Page {{ current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}</title>
+  {%- if page_description -%}<meta name="description" content="{{ page_description | escape }}">{%- endif -%}
+  {% render 'meta-tags' %}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap">
+  {{ 'hiatus.css' | asset_url | stylesheet_tag }}
+  <script>document.documentElement.classList.remove('no-js');</script>
+  <script>
+    window.Hiatus = {
+      routes: {
+        root: {{ routes.root_url | json }},
+        cart: {{ routes.cart_url | json }},
+        cartAdd: {{ routes.cart_add_url | json }},
+        cartChange: {{ routes.cart_change_url | json }},
+        search: {{ routes.search_url | json }},
+        predictive: {{ routes.predictive_search_url | json }},
+        collections: {{ routes.collections_url | json }}
+      },
+      currency: {{ cart.currency.iso_code | json }},
+      moneyFormat: {{ shop.money_format | json }},
+      weather: {
+        on: {{ settings.weather_on | json }},
+        lat: {{ settings.weather_lat | default: -28.12 | json }},
+        lon: {{ settings.weather_lon | default: 153.47 | json }},
+        tz: {{ settings.weather_tz | default: 'Australia/Brisbane' | json }}
+      }
+    };
+  </script>
+  {{ content_for_header }}
+  {%- if settings.hide_app_popups -%}
+  {%- comment -%} BF 2026: WELCOME10 off. Hides Klaviyo + Omnisend signup popups/teasers (e.g. "CLAIM DISCOUNT" tab) in this theme only. {%- endcomment -%}
+  <style>
+    .kl-private-reset-css-Xuajs1[role="dialog"],div[class*="kl-teaser"],.klaviyo-form[data-testid*="POPUP"],.klaviyo-form[data-testid*="FLYOUT"],div[aria-label="Open Form"],
+    #omnisend-forms-container,[id^="omnisend-form"],[class*="omnisend-form"],[class*="soundest-form"],iframe[id^="omnisend-"]{display:none!important}
+  </style>
+  {%- endif -%}
+
+</head>
+<body class="tpl-{{ template.name }}{% if template.name == 'product' %} on-pdp{% endif %}{% if template.name != 'index' %} scrolled{% endif %}">
+  <a class="visually-hidden" href="#view">Skip to content</a>
+  <div class="backdrop" id="backdrop" aria-hidden="true"></div>
+  <div class="grain" aria-hidden="true"></div>
+
+  <div class="app">
+    {% sections 'header-group' %}
+    <main id="view" class="view" role="main">
+      {{ content_for_layout }}
+    </main>
+    {% sections 'footer-group' %}
+  </div>
+
+  <div class="scrim" id="scrim"></div>
+  {% section 'cart-drawer' %}
+  <aside class="drawer glass" id="wishDrawer" aria-label="Your wishlist" aria-hidden="true">
+    <div class="drawer-head"><h2>Wishlist</h2><button class="icon-btn" type="button" data-wishclose aria-label="Close wishlist">{% render 'icon', name: 'close' %}</button></div>
+    <div class="lines" id="wishLines"></div>
+    <div id="wishFoot"></div>
+  </aside>
+  {% render 'size-guide' %}
+  <div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Image viewer" hidden>
+    <img id="lbImg" alt="" width="1200" height="1200">
+    <button class="lb-btn lb-x" id="lbClose" type="button" aria-label="Close">{% render 'icon', name: 'close' %}</button>
+    <button class="lb-btn lb-l" id="lbPrev" type="button" aria-label="Previous image">{% render 'icon', name: 'chev-l' %}</button>
+    <button class="lb-btn lb-r" id="lbNext" type="button" aria-label="Next image">{% render 'icon', name: 'chev-r' %}</button>
+    <span class="lb-count" id="lbCount"></span>
+  </div>
+  <div class="toast glass-soft" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="{{ 'hiatus.js' | asset_url }}" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+  <script>
+    (function(){
+      if(window.innerWidth<=768||'ontouchstart' in window)return;
+      var l=new Lenis({lerp:0.07,smoothWheel:true,wheelMultiplier:0.8});
+      (function r(t){l.raf(t);requestAnimationFrame(r)})(performance.now());
+    })();
+  </script>
+{%- capture ecom_footer_content -%}{%- render 'ecom_footer' -%}{%- endcapture -%}{%- unless ecom_footer_content contains 'Liquid error' -%}{{ ecom_footer_content }}{%- endunless -%}</body>
+</html>

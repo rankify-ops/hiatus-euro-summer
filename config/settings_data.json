@@ -1,0 +1,50 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "current": {
+    "hide_app_popups": true,
+    "weather_on": true,
+    "weather_place": "Palm Beach",
+    "weather_lat": "-28.12",
+    "weather_lon": "153.47",
+    "weather_tz": "Australia/Brisbane",
+    "show_gold": false,
+    "sections": {
+      "cart-drawer": {
+        "type": "cart-drawer",
+        "settings": {
+          "note": "Lifetime warranty · free express shipping on all AU orders for Black Friday"
+        }
+      }
+    },
+    "content_for_index": [],
+    "blocks": {
+      "klaviyo_onsite_off": {
+        "type": "shopify://apps/klaviyo-email-marketing-sms/blocks/klaviyo-onsite-embed/2632fe16-c075-4321-a88b-50b567f42507",
+        "disabled": true,
+        "settings": {}
+      },
+      "judgeme_core": {
+        "type": "shopify://apps/judge-me-reviews/blocks/judgeme_core/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+        "disabled": false,
+        "settings": {}
+      }
+    }
+  },
+  "presets": {
+    "Default": {
+      "weather_on": true,
+      "weather_place": "Palm Beach",
+      "weather_lat": "-28.12",
+      "weather_lon": "153.47",
+      "weather_tz": "Australia/Brisbane"
+    }
+  }
+}
