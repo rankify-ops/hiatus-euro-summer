@@ -29,7 +29,7 @@
   endcase
   # Material: pulled from the product's Shopify taxonomy metafield (jewelry-material), falling back to the live-site wording.
   # Gold is hidden until stock arrives: it only shows when Theme settings > Gold (hidden) > show_gold is on.
-  assign material = '925 Sterling Silver'
+  assign material = 'Solid 925 Sterling Silver'
   assign material_swatch = 'sw-silver'
   assign material_is_gold = false
   assign mat_obj = product.metafields.shopify['jewelry-material'].value
