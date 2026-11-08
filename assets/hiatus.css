@@ -408,7 +408,7 @@ details[open] .chev{transform:rotate(180deg)}
   .pdp .buy .row{margin-bottom:30px!important}
   .pdp .buy .opts{margin-bottom:30px!important}
   .pdp .buy .atc{margin-top:30px!important}
-  .pdp .buy .assure{margin-bottom:30px!important}
+  .pdp .buy .assure{margin:20px 0!important}
   .pdp .buy .opt-size .sizes{margin-top:20px!important}
 }
 .pdp .need:empty{display:none}
@@ -439,7 +439,7 @@ details[open] .chev{transform:rotate(180deg)}
   .pdp .atc .btn{flex:1}
   .pdp #buyNow{margin-top:0}
   .pdp .pay-block{margin-top:0}
-  .pdp .assure{margin-bottom:40px}
+  .pdp .assure{margin:20px 0}
   .pdp .buy .row{margin-bottom:20px}
   .pdp .opts{margin-bottom:20px}
 }
